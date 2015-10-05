@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://durrellchamorro.github.io/sitemap.xml 
