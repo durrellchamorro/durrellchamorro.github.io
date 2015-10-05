@@ -18,7 +18,7 @@ class God < ActiveRecord::Base
 end
 ```
 
-``` ruby
+```ruby
 class Human < ActiveRecord::Base
   self.table_name =“humans”
   has_many :gods
