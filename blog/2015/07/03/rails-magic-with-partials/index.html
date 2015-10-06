@@ -3,14 +3,18 @@
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Rails Magic With Partials - Durrell Chamorro</title>
+  <title>Rails Magic With Partials - I'm Durrell Chamorro</title>
   <meta name="author" content="Durrell Chamorro">
 
   
-  <meta name="description" content="When you want to send a collection of objects to a partial you can use Rails
-conventions to eliminate code if you know what rails automatically &hellip;">
+  <meta name="description" content="Rails Magic With Partials written in rails When you want to send a collection of objects to a partial you can use Rails
+conventions to eliminate &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,73 +23,55 @@ conventions to eliminate code if you know what rails automatically &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://durrellchamorro.github.io/blog/2015/07/03/rails-magic-with-partials/">
+  <link rel="canonical" href="http://durrellchamorro.github.io/blog/2015/07/03/rails-magic-with-partials">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Durrell Chamorro" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="I'm Durrell Chamorro" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
   
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Durrell Chamorro</a></h1>
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Rails Magic With Partials</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
   
-    <h2>A web developer in the Los Angeles area</h2>
+
+
+
+<time datetime="2015-07-03T06:33:02-07:00" pubdate data-updated="true"></time>
+          
+
+in
+<span class="categories">
   
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+    <a class='category' href='/blog/categories/rails/'>rails</a>
   
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="durrellchamorro.github.io">
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Rails Magic With Partials</h1>
-    
-    
-      <p class="meta">
-        
+</span>
 
 
-
-
-<time class='entry-date' datetime='2015-07-03T06:33:02-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>6:33 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>When you want to send a collection of objects to a partial you can use Rails
+        </div>
+        <p>When you want to send a collection of objects to a partial you can use Rails
 conventions to eliminate code if you know what rails automatically assumes.</p>
 
 <!--more-->
@@ -162,145 +148,61 @@ there is a folder named after those resources that contains a partial named
 after the singular of those resources. Given that knowledge, all we have to do
 is create a <code>categories</code> folder relative to the view and put a
 <code>category.html.erb</code> file in it that contains the code in Example 5.</p>
-</div>
 
 
-  <footer>
-    <p class="meta">
-      
-  
+        <hr class="divider-short"/>
 
-<span class="byline author vcard">Posted by <span class="fn">Durrell Chamorro</span></span>
-
-      
-
-
-
-
-<time class='entry-date' datetime='2015-07-03T06:33:02-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>6:33 am</span></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/rails/'>rails</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://durrellchamorro.github.io/blog/2015/07/03/rails-magic-with-partials/" data-via="" data-counturl="http://durrellchamorro.github.io/blog/2015/07/03/rails-magic-with-partials/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-      
-        <a class="basic-alignment right" href="/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/" title="Next Post: Be Aware of App not Being Aware of Database Data">Be Aware of App not Being Aware of Database Data &raquo;</a>
-      
-    </p>
-  </footer>
+        
+      </div>
+    </div>
+  </div>
 </article>
 
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+
+        
+          <a class="pull-right" href="/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/" title="Next Post: Be Aware of App not Being Aware of Database Data">Next: Be Aware of App not Being Aware of Database Data &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
 </div>
 
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
     
-      <li class="post">
-        <a href="/blog/2015/10/05/self-referential-associations-in-rails/">Self Referential Associations in Rails</a>
-      </li>
+
     
-      <li class="post">
-        <a href="/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/">Be Aware of App Not Being Aware of Database Data</a>
-      </li>
+    <a href="https://github.com/durrellchamorro"><img src="/images/glyphicons_social_21_github.png"/></a>
     
-      <li class="post">
-        <a href="/blog/2015/07/03/rails-magic-with-partials/">Rails Magic With Partials</a>
-      </li>
+
     
-  </ul>
-</section>
 
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/durrellchamorro">@durrellchamorro</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
+    
+  </div>
+</div>
 
-        github.showRepos({
-            user: 'durrellchamorro',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-<section>
-  <h1>About Me</h1>
-  <p>When I'm not studying web development at <a href="http://www.gotealeaf.com">Tealeaf Academy</a>
-    you can find me swing dancing somewhere in LA or Orange Conty.</p>
-</section>
-
-  
-</aside>
+<div class="pull-right">
+  <h4>Copyright &copy 2015 Durrell Chamorro. Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>. Photo Credit: <a href="http://www.flickr.com/photos/44124348109@N01/8213082764">Tubular</a> via <a href="http://photopin.com">photopin</a> <a href="https://creativecommons.org/licenses/by/2.0/">(license)</a></h4></div>
 
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Durrell Chamorro -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
-  
 
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
+    
+  </body>
 </html>

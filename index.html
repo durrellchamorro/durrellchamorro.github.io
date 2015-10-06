@@ -3,14 +3,18 @@
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Durrell Chamorro</title>
+  <title>I'm Durrell Chamorro</title>
   <meta name="author" content="Durrell Chamorro">
 
   
-  <meta name="description" content="In this post I&rsquo;ll compare and contrast different database associations in rails with the goal of
-explaining how to set up self referential &hellip;">
+  <meta name="description" content="I'm Durrell Chamorro
+an entrepreneur and developer in Los Angeles about me I run two eBay stores Clothes Closeout Sales and Your Jean Genie and I'm &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,501 +23,94 @@ explaining how to set up self referential &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://durrellchamorro.github.io/">
+  <link rel="canonical" href="http://durrellchamorro.github.io">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Durrell Chamorro" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="I'm Durrell Chamorro" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
   
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Durrell Chamorro</a></h1>
-  
-    <h2>A web developer in the Los Angeles area</h2>
-  
-</hgroup>
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="durrellchamorro.github.io">
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
+    <div class="home-page">
+  <div class="hero">
+    <h1>I'm Durrell Chamorro</h1>
+<p>an entrepreneur and developer in Los Angeles</p>
 
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  </div>
+
+  <div class="home-field">
+    <div class="home-landing her-row">
+      <div class="container">
+        <div class="row">
+          <div id="about-me" class="col-md-offset-3 col-md-6">
+  <h4>about me</h4>
+  <p>I run two eBay stores <a href="http://stores.ebay.com/clothes-closeout-sales/">Clothes Closeout Sales</a> and <a href="http://stores.ebay.com/your-jean-genie/">Your Jean Genie</a> and I'm currently studying web development at <a href="http://gotealeaf.com/">Tealeaf Academy</a>.</p>
+  <div class="social-icon-list">
+  	
     
-      <h1 class="entry-title"><a href="/blog/2015/10/05/self-referential-associations-in-rails/">Self Referential Associations in Rails</a></h1>
+    <a title="GitHub" href="https://github.com/durrellchamorro"><img src="/images/glyphicons_social_21_github.png"/></a>
     
     
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-05T12:25:45-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:25 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In this post I&rsquo;ll compare and contrast different database associations in rails with the goal of
-explaining how to set up self referential associations in rails. My conclusion is the conventions
-rails provides don&rsquo;t always make code easier to read.</p>
-
-<p>Rails makes it easy to associate different models with one another. Take these
-two models as a straight forward example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">God</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:human</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Human</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span><span class="err">“</span><span class="n">humans</span><span class="err">”</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:gods</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In this model <code>self.table_name = “humans”</code> tells rails to look for a table
-named <code>humans</code> instead of <code>humen</code> which it will automatically look for
-with a model named <code>Human</code>. This can be demonstrated by typing the following
-command into the rails console:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">“</span><span class="n">human</span><span class="err">”</span><span class="o">.</span><span class="n">tableize</span> <span class="o">=&gt;</span> <span class="err">“</span><span class="n">humen</span><span class="err">”</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So long as you have a foreign key called <code>human_id</code> in the gods table, rails
-will figure out the association and let you call things like</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">zeus</span><span class="o">.</span><span class="n">human</span> <span class="o">=&gt;</span> <span class="c1">#&lt;Human id: 1, name: “bob&quot;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p> and</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bob</span><span class="o">.</span><span class="n">gods</span> <span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: &quot;Zeus&quot;, human_id: 1&gt;, #&lt;God id: 2, name: &quot;Athena&quot;, human_id: 1&gt;]&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>has_many :gods</code> line in the Human model is just a rails convention for the following method:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">gods</span>
-</span><span class='line'>    <span class="no">God</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">human_id</span><span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see from the above method, rails assumes you are querying the gods table and it assumes you are looking for the foreign key in the gods table that equals the primary key of the object the <code>gods</code> method is being called on.</p>
-
-<p>Likewise, the <code>belongs_to :human</code> line in the God model is a rails convention for the following method:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">human</span>
-</span><span class='line'>    <span class="no">Human</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">human_id</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see from the method above, rails assumes you are querying the humans table for the primary key that equals the foreign key (in this case the foreign key is human_id) of the object (in the example above the object was zeus) the <code>human</code> method is being called on. It automatically looks for a foreign key called <code>human_id</code> by convention as well since the relationship is <code>belongs to :human</code></p>
-
-<p>The rails conventions work beautifully for the above situation, but if you wanted to show a god has many human followers and a human follows many different gods? The <code>belongs_to :human</code> line above doesn’t allow you to call <code>zeus.humans</code> to get a list of humans. It only allows  you to call <code>zeus.human</code> to get one human. To fix this we need to set up a many to many relationship.</p>
-
-<p>First we’ll create a new table called <code>relationships</code>. The model that hooks up to that table will look like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Relationship</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:god</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:human</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The relationships table will have foreign keys called <code>god_id</code> and <code>human_id</code>. The God model will need to be changed to this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">God</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:relationships</span>
-</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:humans</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="ss">:relationships</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If the relationships table has a row with god_id equal to 1 and human_id equal to 1 and another row with god_id equal
-to 1 and human_id equal to 2 and we do this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">zeus</span> <span class="o">=</span> <span class="no">God</span><span class="o">.</span><span class="n">first</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>then we get this:</p>
-
-<p> <code>zeus.humans =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Human id: 2, name: "marcus"&gt;, #&lt;Human id: 1, name: "maximus"&gt;]&gt;</code></p>
-
-<p>the rails convention <code>has_many :humans, through: :relationships</code> is the same as writing this method. The difference
-is the convention returns an ActiveRecord_Associations_CollectionProxy and the
-method below returns an array. This is a minor difference because you just need
-to call <code>to_a</code> on it to turn it into an array.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">humans</span>
-</span><span class='line'>  <span class="no">Human</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="no">Relationship</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">god_id</span><span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:human_id</span><span class="p">))</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see from the method, this convention assumes you are querying the
-relationships table for all entries where the god_id foreign key is equal to the
-primary key of the object the <code>humans</code> method is being called on.  It then
-assumes you want a list of all the humans
-whose primary key equals the human_id foreign key in the list of relationships
-it got from the previous query.</p>
-
-<p>If the relationships table has a row with god_id equal to 1 and human_id equal
-to 1 and another row with god_id equal to 2 and human_id equal to 1, and we do this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span> <span class="o">=</span> <span class="no">Human</span><span class="o">.</span><span class="n">first</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>then we get this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span><span class="o">.</span><span class="n">gods</span>  <span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: &quot;Zeus&quot;, human_id: 1&gt;, #&lt;God id: 2, name: &quot;Athena&quot;, human_id: 1&gt;]&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The rails convention</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">has_many</span><span class="p">:</span> <span class="n">gods</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="ss">:relationships</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>is the same as writing the method below. The difference is the convention returns
-an ActiveRecord_Associations_CollectionProxy and the method below returns an
-array. This is a minor difference because you just need to call <code>to_a</code> on
-it to turn it into an array.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="k">def</span> <span class="nf">gods</span>
-</span><span class='line'>    <span class="no">God</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="no">Relationship</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">human_id</span><span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:god_id</span><span class="p">))</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see from the method, this convention assumes you are querying the relationships table for all entries where the human_id foreign key is equal to the primary key of the object the <code>gods</code> method is being called on.  It then assumes you want a list of all the gods
-whose primary key equals the god_id foreign key in the list of relationships it
-got from the previous query.</p>
-
-<p>What if you want a list of all the children and all the parents of a particular god? This sort of request is a self referential association. Instead of asking for associated data in another table as in humans associated with gods, you are asking for associated data within the same table as in gods associated with gods. This means the conventions above wont work because the assumptions explained above that rails makes will be wrong. Therefore, you have to explicitly tell rails where to look.</p>
-
-<p>The Relationship model will need two additional lines as follows:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Relationship</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:god</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:human</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:parent</span><span class="p">,</span> <span class="ss">class_name</span><span class="p">:</span> <span class="s2">&quot;God&quot;</span>
-</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:child</span><span class="p">,</span> <span class="ss">class_name</span><span class="p">:</span> <span class="s2">&quot;God&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we are naming the relationship as <code>parent</code> and <code>child</code> but we don’t
-want rails to look for the <code>Parent</code> class/model and the <code>Child</code> class/model because
-those classes/models don’t exist. Therefore we have to explicitly tell rails to look
-for the God class/model.</p>
-
-<p>The God class will need these two additional lines of code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:children</span><span class="p">,</span> <span class="ss">class_name</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span> <span class="ss">foreign_key</span><span class="p">:</span> <span class="ss">:parent_id</span>
-</span><span class='line'><span class="n">has_many</span> <span class="ss">:parents</span><span class="p">,</span> <span class="ss">class_name</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span> <span class="ss">foreign_key</span><span class="p">:</span> <span class="ss">:child_id</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We need to explicitly tell rails the class name is Relationship otherwise it will
-look for the Child and Parent classes. Then we need to tell rails the foreign
-key names we want. In this case we are looking for the parent_id foreign keys
-in the <code>relationships</code> table and we want to access that data with by calling a method named <code>children</code>. We are also looking for the child_id foreign keys in the relationships table and we want to access that data by calling a method named <code>parents</code></p>
-
-<p>There is still a little convention at play. We are naming the methods
-<code>children</code> and <code>parents</code> since the Relationship model has <code>belongs_to :parent, class_name: "God"</code>
-and <code>belongs_to :child, class_name: “God”</code> which tell rails to associate the two classes.</p>
-
-<p>This line</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:children</span><span class="p">,</span> <span class="ss">class_name</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span> <span class="ss">foreign_key</span><span class="p">:</span> <span class="ss">:parent_id</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>is essentially the same as writing this method with the exception that the method
-below returns a Relationship::ActiveRecord_Relation and the convention returns
-an ActiveRecord_Associations_CollectionProxy, both of which can be turned
-into an array by calling <code>to_a</code> on them.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">children</span>
-</span><span class='line'>  <span class="no">Relationship</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">parent_id</span><span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With all this being said, I think this example shows the conventions in rails don&rsquo;t
-always make the code easier to read. To me, it&rsquo;s easier to understand what is going on
-in the method above than in the convention below:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:children</span><span class="p">,</span> <span class="ss">class_name</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span> <span class="ss">foreign_key</span><span class="p">:</span> <span class="ss">:parent_id</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/">Be Aware of App Not Being Aware of Database Data</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-08-17T14:40:25-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:40 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When you write a database backed app, you need to be aware that the app isn&rsquo;t always aware
-of new data that recently hit the database. For example,</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/03/rails-magic-with-partials/">Rails Magic With Partials</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-03T06:33:02-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>6:33 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When you want to send a collection of objects to a partial you can use Rails
-conventions to eliminate code if you know what rails automatically assumes.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/03/rails-magic-with-partials/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
     
   </div>
 </div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="article-list">
+      <div class="container">
+        
+      </div>
+    </div>
+
+    <hr class="divider-short"/>
+
+    <div class="archive-link">
+      <h3><a href="/posts/">All Posts</a></h3>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+  <div class="social-icon-list">
     
-      <li class="post">
-        <a href="/blog/2015/10/05/self-referential-associations-in-rails/">Self Referential Associations in Rails</a>
-      </li>
+
     
-      <li class="post">
-        <a href="/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/">Be Aware of App Not Being Aware of Database Data</a>
-      </li>
+    <a href="https://github.com/durrellchamorro"><img src="/images/glyphicons_social_21_github.png"/></a>
     
-      <li class="post">
-        <a href="/blog/2015/07/03/rails-magic-with-partials/">Rails Magic With Partials</a>
-      </li>
+
     
-  </ul>
-</section>
 
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/durrellchamorro">@durrellchamorro</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
+    
+  </div>
+</div>
 
-        github.showRepos({
-            user: 'durrellchamorro',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
+<div class="pull-right">
+  <h4>Copyright &copy 2015 Durrell Chamorro. Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>. Photo Credit: <a href="http://www.flickr.com/photos/44124348109@N01/8213082764">Tubular</a> via <a href="http://photopin.com">photopin</a> <a href="https://creativecommons.org/licenses/by/2.0/">(license)</a></h4></div>
 
-
-
-
-<section>
-  <h1>About Me</h1>
-  <p>When I'm not studying web development at <a href="http://www.gotealeaf.com">Tealeaf Academy</a>
-    you can find me swing dancing somewhere in LA or Orange Conty.</p>
-</section>
-
-  
-</aside>
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Durrell Chamorro -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
-  
 
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
+    
+  </body>
 </html>

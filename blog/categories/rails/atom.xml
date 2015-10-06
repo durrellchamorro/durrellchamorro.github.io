@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rails | Durrell Chamorro]]></title>
+  <title><![CDATA[Category: rails | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-05T20:58:50-07:00</updated>
+  <updated>2015-10-06T10:05:03-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -20,7 +20,7 @@
     <id>http://durrellchamorro.github.io/blog/2015/10/05/self-referential-associations-in-rails</id>
     <content type="html"><![CDATA[<p>In this post I&rsquo;ll compare and contrast different database associations in rails with the goal of
 explaining how to set up self referential associations in rails. My conclusion is the conventions
-rails provides don&rsquo;t always make code easier to read.</p>
+rails provides don&rsquo;t always make code easier to read.<!--more--></p>
 
 <p>Rails makes it easy to associate different models with one another. Take these
 two models as a straight forward example:</p>
@@ -203,7 +203,7 @@ in the method above than in the convention below:</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Be Aware of App Not Being Aware of Database Data]]></title>
+    <title type="html"><![CDATA[Be Aware of App not Being Aware of Database Data]]></title>
     <link href="http://durrellchamorro.github.io/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/"/>
     <updated>2015-08-17T14:40:25-07:00</updated>
     <id>http://durrellchamorro.github.io/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data</id>
