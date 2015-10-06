@@ -3,7 +3,7 @@ layout: post
 title: "Self Referential Associations in Rails"
 date: 2015-10-05 12:25:45 -0700
 comments: true
-categories:
+categories: rails
 ---
 In this post I'll compare and contrast different database associations in rails with the goal of
 explaining how to set up self referential associations in rails. My conclusion is the conventions
