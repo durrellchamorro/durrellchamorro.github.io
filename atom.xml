@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-05T15:59:39-07:00</updated>
+  <updated>2015-10-05T17:53:08-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -272,6 +272,91 @@ in the method above than in the convention below:</p>
 
 
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Magic With Partials]]></title>
+    <link href="http://durrellchamorro.github.io/blog/2015/07/03/rails-magic-with-partials/"/>
+    <updated>2015-07-03T06:33:02-07:00</updated>
+    <id>http://durrellchamorro.github.io/blog/2015/07/03/rails-magic-with-partials</id>
+    <content type="html"><![CDATA[<p>When you want to send a collection of objects to a partial you can use Rails
+conventions to eliminate code if you know what rails automatically assumes.</p>
+
+<!--more-->
+
+
+<p>Normally, for a partial containing the code in Example 2 you would
+write something like this in the view:</p>
+
+<p>Example 1</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">render</span> <span class="s2">&quot;shared/title&quot;</span><span class="p">,</span> <span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;All Posts&quot;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>where <code>”shared/title"</code> is the relative path to the partial and <code>title:</code>
+is the name of the local variable in the partial, and <code>”All Posts”</code> is the
+string that local variable will be set to. It is important to remember the actual
+partial needs to have an underscore in front of it so the actual file in this
+example is <code>_title.html.erb</code> but it is just referenced as <code>title</code> as
+shown above.</p>
+
+<p>Example 2</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;&lt;%=</span> <span class="n">title</span> <span class="sx">%&gt;&lt;/h3&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is where you can take advantage of Rails conventions and assumptions. Let’s
+say you have an object <code>@posts</code> that is set in your Controller to your Post
+model like this: <code>@posts = Post.all</code> so <code>@posts</code> contains many post
+objects, and each post has its own categories. Instead of writing all this:</p>
+
+<p>Example 3</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">% @posts.each </span><span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% post.categories.each do |category| %&gt;</span>
+</span><span class='line'>    <span class="o">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;/categories/category&#39;</span><span class="p">,</span> <span class="ss">category</span><span class="p">:</span> <span class="n">category</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">  &lt;% end %&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can simply write:</p>
+
+<p>Example 4</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">% @posts.each </span><span class="k">do</span>  <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%= render post.categories %&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The partial for Example 4 might look something like this:</p>
+
+<p>Example 5</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">link_to</span> <span class="n">category</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="n">category</span><span class="p">)</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Example 4 the resources we are rendering are categories. Rails will assume
+there is a folder named after those resources that contains a partial named
+after the singular of those resources. Given that knowledge, all we have to do
+is create a <code>categories</code> folder relative to the view and put a
+<code>category.html.erb</code> file in it that contains the code in Example 5.</p>
 ]]></content>
   </entry>
   
