@@ -4,7 +4,7 @@
   <title><![CDATA[Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-05T20:12:06-07:00</updated>
+  <updated>2015-10-05T20:58:50-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -50,7 +50,7 @@ two models as a straight forward example:</p>
 <p>In this model <code>self.table_name = “humans”</code> tells rails to look for a table
 named <code>humans</code> instead of <code>humen</code> which it will automatically look for
 with a model named <code>Human</code>. This can be demonstrated by typing the following
-command into the terminal:</p>
+command into the rails console:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">“</span><span class="n">human</span><span class="err">”</span><span class="o">.</span><span class="n">tableize</span> <span class="o">=&gt;</span> <span class="err">“</span><span class="n">humen</span><span class="err">”</span>
