@@ -176,7 +176,7 @@ has_many :parents, class_name: "Relationship", foreign_key: :child_id
 We need to explicitly tell rails the class name is Relationship otherwise it will
 look for the Child and Parent classes. Then we need to tell rails the foreign
 key names we want. In this case we are looking for the parent_id foreign keys
-in the ```relationships``` table and we want to access that data with by calling a method named ```children```. We are also looking for the child_id foreign keys in the relationships table and we want to access that data by calling a method named ```parents```
+in the ```relationships``` table and we want to access that data by calling a method named ```children```. We are also looking for the child_id foreign keys in the relationships table and we want to access that data by calling a method named ```parents```
 
 
 There is still a little convention at play. We are naming the methods
@@ -190,8 +190,8 @@ This line
 has_many :children, class_name: "Relationship", foreign_key: :parent_id
 ```
 
-is essentially the same as writing this method with the exception that the method
-below returns a Relationship::ActiveRecord_Relation and the convention returns
+is essentially the same as writing this method below with the exception that the method
+below returns a Relationship::ActiveRecord_Relation and the convention above returns
 an ActiveRecord_Associations_CollectionProxy, both of which can be turned
 into an array by calling ``to_a`` on them.
 
@@ -203,7 +203,7 @@ end
 
 With all this being said, I think this example shows the conventions in rails don't
 always make the code easier to read. To me, it's easier to understand what is going on
-in the method above than in the convention below:
+in the method above than in the convention below.
 
 ```
 has_many :children, class_name: "Relationship", foreign_key: :parent_id
