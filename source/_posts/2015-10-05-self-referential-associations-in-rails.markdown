@@ -28,7 +28,7 @@ end
 In this model ```self.table_name = “humans” ``` tells rails to look for a table
 named ```humans``` instead of ```humen``` which it will automatically look for
 with a model named ```Human```. This can be demonstrated by typing the following
-command into the terminal:
+command into the rails console:
 
 ```
 “human”.tableize => “humen”
