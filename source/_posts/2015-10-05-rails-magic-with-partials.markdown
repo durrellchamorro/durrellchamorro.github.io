@@ -31,7 +31,7 @@ model like this: ```@posts = Post.all``` so ```@posts``` contains many post
 objects, and each post has its own categories. Instead of writing all this:
 
 Example 3
-```ruby
+``` ruby
 <% @posts.each do |post| %>
   <% post.categories.each do |category| %>
     <%= render '/categories/category', category: category %>

@@ -7,12 +7,12 @@ categories: rails
 ---
 In this post I'll compare and contrast different database associations in rails with the goal of
 explaining how to set up self referential associations in rails. My conclusion is the conventions
-rails provides don't always make code easier to read.
+rails provides don't always make code easier to read.<!--more-->
 
 Rails makes it easy to associate different models with one another. Take these
 two models as a straight forward example:
 
-``` ruby
+```ruby
 class God < ActiveRecord::Base
   belongs_to :human
 end

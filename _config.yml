@@ -3,11 +3,12 @@
 # ----------------------- #
 
 url: http://durrellchamorro.github.io
-title: Durrell Chamorro
-subtitle: A web developer in the Los Angeles area
+title: I'm Durrell Chamorro
+subtitle: an entrepreneur and developer in Los Angeles
 author: Durrell Chamorro
 simple_search: https://www.google.com/search
-description:
+description: I run two eBay stores <a href="http://stores.ebay.com/clothes-closeout-sales/">Clothes Closeout Sales</a> and <a href="http://stores.ebay.com/your-jean-genie/">Your Jean Genie</a> and I'm currently studying web development at <a href="http://gotealeaf.com/">Tealeaf Academy</a>.
+
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
