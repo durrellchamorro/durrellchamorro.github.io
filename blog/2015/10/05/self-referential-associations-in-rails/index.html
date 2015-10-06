@@ -287,7 +287,7 @@ for the God class/model.</p>
 <p>We need to explicitly tell rails the class name is Relationship otherwise it will
 look for the Child and Parent classes. Then we need to tell rails the foreign
 key names we want. In this case we are looking for the parent_id foreign keys
-in the <code>relationships</code> table and we want to access that data with by calling a method named <code>children</code>. We are also looking for the child_id foreign keys in the relationships table and we want to access that data by calling a method named <code>parents</code></p>
+in the <code>relationships</code> table and we want to access that data by calling a method named <code>children</code>. We are also looking for the child_id foreign keys in the relationships table and we want to access that data by calling a method named <code>parents</code></p>
 
 <p>There is still a little convention at play. We are naming the methods
 <code>children</code> and <code>parents</code> since the Relationship model has <code>belongs_to :parent, class_name: "God"</code>
@@ -300,8 +300,8 @@ and <code>belongs_to :child, class_name: “God”</code> which tell rails to as
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>is essentially the same as writing this method with the exception that the method
-below returns a Relationship::ActiveRecord_Relation and the convention returns
+<p>is essentially the same as writing this method below with the exception that the method
+below returns a Relationship::ActiveRecord_Relation and the convention above returns
 an ActiveRecord_Associations_CollectionProxy, both of which can be turned
 into an array by calling <code>to_a</code> on them.</p>
 
@@ -316,7 +316,7 @@ into an array by calling <code>to_a</code> on them.</p>
 
 <p>With all this being said, I think this example shows the conventions in rails don&rsquo;t
 always make the code easier to read. To me, it&rsquo;s easier to understand what is going on
-in the method above than in the convention below:</p>
+in the method above than in the convention below.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:children</span><span class="p">,</span> <span class="ss">class_name</span><span class="p">:</span> <span class="s2">&quot;Relationship&quot;</span><span class="p">,</span> <span class="ss">foreign_key</span><span class="p">:</span> <span class="ss">:parent_id</span>
