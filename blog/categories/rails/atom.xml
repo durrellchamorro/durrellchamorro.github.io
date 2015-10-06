@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | My Octopress Blog]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-05T17:53:08-07:00</updated>
+  <updated>2015-10-05T17:57:48-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Be Aware of App Not Being Aware of Database Data]]></title>
+    <link href="http://durrellchamorro.github.io/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/"/>
+    <updated>2015-08-17T14:40:25-07:00</updated>
+    <id>http://durrellchamorro.github.io/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data</id>
+    <content type="html"><![CDATA[<p>When you write a database backed app, you need to be aware that the app isn&rsquo;t always aware
+of new data that recently hit the database. For example,<!--more--> say you have a
+method like this that deals one card to a player or dealer:</p>
+
+<pre><code class="ruby">def deal_one_card(role, hand)
+   card = Card.deal_one
+   if role.class == Player
+     card.player_id = current_player.id
+     card.hand_id = hand.id
+   else
+     card.dealer_id = dealer.id
+     card.hand_id = hand.id
+   end
+   card.save
+ end
+</code></pre>
+
+<p>and you have a loop like this that will continue adding cards to the dealers hand until
+the total of the dealer&rsquo;s hand sums to at least 17</p>
+
+<pre><code class="ruby">while total(dealer.hand.cards) &lt; ApplicationController::DEALER_MINIMUM
+  deal_one_card(dealer, dealer.hand)
+end
+</code></pre>
+
+<p>As the <code>deal_one_card</code> method above is written the card will be saved in the
+database with the proper attributes linking it to the dealer&rsquo;s hand,
+however the rails app will not be aware of this change in the database while inside the loop
+so when it totals the dealer&rsquo;s cards, the total will never increase. Therefore if the total was &lt; 17
+entering the loop, it will stay &lt; 17 and the loop will go on infinitely.</p>
+
+<p>In order to let the app know how the <code>deal_one_card</code> method changed the database
+you must reload the hand like so:</p>
+
+<pre><code class="ruby">while total(dealer.hand.reload.cards) &lt; ApplicationController::DEALER_MINIMUM
+  deal_one_card(dealer, dealer.hand)
+end
+</code></pre>
+
+<p>This was a nasty bug I had the toughest time figuring out and I&rsquo;m very thankful to Brandon
+at <a href="http://gotealeaf.com/">Tealeaf Academy</a> for figuring this one out and explaining it to me.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails Magic With Partials]]></title>

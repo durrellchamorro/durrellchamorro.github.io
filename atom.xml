@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-05T17:53:08-07:00</updated>
+  <updated>2015-10-05T17:57:48-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -272,6 +272,75 @@ in the method above than in the convention below:</p>
 
 
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Be Aware of App Not Being Aware of Database Data]]></title>
+    <link href="http://durrellchamorro.github.io/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/"/>
+    <updated>2015-08-17T14:40:25-07:00</updated>
+    <id>http://durrellchamorro.github.io/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data</id>
+    <content type="html"><![CDATA[<p>When you write a database backed app, you need to be aware that the app isn&rsquo;t always aware
+of new data that recently hit the database. For example,<!--more--> say you have a
+method like this that deals one card to a player or dealer:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">deal_one_card</span><span class="p">(</span><span class="n">role</span><span class="p">,</span> <span class="n">hand</span><span class="p">)</span>
+</span><span class='line'>   <span class="n">card</span> <span class="o">=</span> <span class="no">Card</span><span class="o">.</span><span class="n">deal_one</span>
+</span><span class='line'>   <span class="k">if</span> <span class="n">role</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Player</span>
+</span><span class='line'>     <span class="n">card</span><span class="o">.</span><span class="n">player_id</span> <span class="o">=</span> <span class="n">current_player</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>     <span class="n">card</span><span class="o">.</span><span class="n">hand_id</span> <span class="o">=</span> <span class="n">hand</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>   <span class="k">else</span>
+</span><span class='line'>     <span class="n">card</span><span class="o">.</span><span class="n">dealer_id</span> <span class="o">=</span> <span class="n">dealer</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>     <span class="n">card</span><span class="o">.</span><span class="n">hand_id</span> <span class="o">=</span> <span class="n">hand</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>   <span class="k">end</span>
+</span><span class='line'>   <span class="n">card</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and you have a loop like this that will continue adding cards to the dealers hand until
+the total of the dealer&rsquo;s hand sums to at least 17</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">while</span> <span class="n">total</span><span class="p">(</span><span class="n">dealer</span><span class="o">.</span><span class="n">hand</span><span class="o">.</span><span class="n">cards</span><span class="p">)</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span><span class="o">::</span><span class="no">DEALER_MINIMUM</span>
+</span><span class='line'>  <span class="n">deal_one_card</span><span class="p">(</span><span class="n">dealer</span><span class="p">,</span> <span class="n">dealer</span><span class="o">.</span><span class="n">hand</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As the <code>deal_one_card</code> method above is written the card will be saved in the
+database with the proper attributes linking it to the dealer&rsquo;s hand,
+however the rails app will not be aware of this change in the database while inside the loop
+so when it totals the dealer&rsquo;s cards, the total will never increase. Therefore if the total was &lt; 17
+entering the loop, it will stay &lt; 17 and the loop will go on infinitely.</p>
+
+<p>In order to let the app know how the <code>deal_one_card</code> method changed the database
+you must reload the hand like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">while</span> <span class="n">total</span><span class="p">(</span><span class="n">dealer</span><span class="o">.</span><span class="n">hand</span><span class="o">.</span><span class="n">reload</span><span class="o">.</span><span class="n">cards</span><span class="p">)</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span><span class="o">::</span><span class="no">DEALER_MINIMUM</span>
+</span><span class='line'>  <span class="n">deal_one_card</span><span class="p">(</span><span class="n">dealer</span><span class="p">,</span> <span class="n">dealer</span><span class="o">.</span><span class="n">hand</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This was a nasty bug I had the toughest time figuring out and I&rsquo;m very thankful to Brandon
+at <a href="http://gotealeaf.com/">Tealeaf Academy</a> for figuring this one out and explaining it to me.</p>
 ]]></content>
   </entry>
   
