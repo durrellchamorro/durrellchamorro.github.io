@@ -30,7 +30,7 @@ named ```humans``` instead of ```humen``` which it will automatically look for
 with a model named ```Human```. This can be demonstrated by typing the following
 command into the rails console:
 
-```
+```bash
 “human”.tableize => “humen”
 ```
 
@@ -38,17 +38,18 @@ command into the rails console:
 
 So long as you have a foreign key called ```human_id``` in the gods table, rails
 will figure out the association and let you call things like
-```
+
+```bash
 zeus.human => #<Human id: 1, name: “bob">
 ``` and
 
-```
+```bash
 bob.gods => #<ActiveRecord::Associations::CollectionProxy [#<God id: 1, name: "Zeus", human_id: 1>, #<God id: 2, name: "Athena", human_id: 1>]>
 ```
 
 The ```has_many :gods``` line in the Human model is just a rails convention for the following method:
 
-```
+```ruby
   def gods
     God.where(human_id: self.id)
   end
@@ -58,7 +59,7 @@ As you can see from the above method, rails assumes you are querying the gods ta
 
 Likewise, the ```belongs_to :human ``` line in the God model is a rails convention for the following method:
 
-```
+```ruby
   def human
     Human.find(self.human_id)
   end
@@ -70,7 +71,7 @@ The rails conventions work beautifully for the above situation, but if you wante
 
 First we’ll create a new table called ```relationships```. The model that hooks up to that table will look like this:
 
-```
+```ruby
 class Relationship < ActiveRecord::Base
   belongs_to :god
   belongs_to :human
@@ -79,7 +80,7 @@ end
 
 The relationships table will have foreign keys called ```god_id``` and ```human_id```. The God model will need to be changed to this:
 
-``` ruby
+```ruby
 class God < ActiveRecord::Base
   has_many :relationships
   has_many :humans, through: :relationships
@@ -88,20 +89,23 @@ end
 
 If the relationships table has a row with god_id equal to 1 and human_id equal to 1 and another row with god_id equal
 to 1 and human_id equal to 2 and we do this:
-```
+
+```bash
 zeus = God.first
 ```
 
 then we get this:
 
- ```zeus.humans => #<ActiveRecord::Associations::CollectionProxy [#<Human id: 2, name: "marcus">, #<Human id: 1, name: "maximus">]> ```
+```bash
+zeus.humans => #<ActiveRecord::Associations::CollectionProxy [#<Human id: 2, name: "marcus">, #<Human id: 1, name: "maximus">]>
+```
 
 the rails convention ```has_many :humans, through: :relationships``` is the same as writing this method. The difference
 is the convention returns an ActiveRecord_Associations_CollectionProxy and the
 method below returns an array. This is a minor difference because you just need
 to call ```to_a``` on it to turn it into an array.
 
-``` ruby
+```ruby
 def humans
   Human.find(Relationship.where(god_id: self.id).pluck(:human_id))
 end
@@ -118,18 +122,18 @@ it got from the previous query.
 If the relationships table has a row with god_id equal to 1 and human_id equal
 to 1 and another row with god_id equal to 2 and human_id equal to 1, and we do this:
 
-```
+```bash
 max = Human.first
 ```
 then we get this:
 
-```
+```bash
 max.gods  => #<ActiveRecord::Associations::CollectionProxy [#<God id: 1, name: "Zeus", human_id: 1>, #<God id: 2, name: "Athena", human_id: 1>]>
 ```
 
 The rails convention
 
-``` ruby
+```ruby
 has_many: gods, through: :relationships
 ```
 
@@ -138,10 +142,10 @@ an ActiveRecord_Associations_CollectionProxy and the method below returns an
 array. This is a minor difference because you just need to call ```to_a``` on
 it to turn it into an array.
 
-```
+```ruby
  def gods
-    God.find(Relationship.where(human_id: self.id).pluck(:god_id))
-  end
+   God.find(Relationship.where(human_id: self.id).pluck(:god_id))
+ end
 ```
 
 As you can see from the method, this convention assumes you are querying the relationships table for all entries where the human_id foreign key is equal to the primary key of the object the ```gods``` method is being called on.  It then assumes you want a list of all the gods
@@ -152,7 +156,7 @@ What if you want a list of all the children and all the parents of a particular 
 
 The Relationship model will need two additional lines as follows:
 
-``` ruby
+```ruby
 class Relationship < ActiveRecord::Base
   belongs_to :god
   belongs_to :human
@@ -161,14 +165,14 @@ class Relationship < ActiveRecord::Base
 end
 ```
 
-Here we are naming the relationship as ```parent``` and ```child``` but we don’t
-want rails to look for the ```Parent``` class/model and the ```Child``` class/model because
+Here we are naming the relationship as ``parent`` and ``child`` but we don’t
+want rails to look for the ``Parent`` class/model and the ``Child`` class/model because
 those classes/models don’t exist. Therefore we have to explicitly tell rails to look
 for the God class/model.
 
 The God class will need these two additional lines of code:
 
-```
+```ruby
 has_many :children, class_name: "Relationship", foreign_key: :parent_id
 has_many :parents, class_name: "Relationship", foreign_key: :child_id
 ```
@@ -186,7 +190,7 @@ and ``belongs_to :child, class_name: “God”`` which tell rails to associate t
 
 This line
 
-```
+```ruby
 has_many :children, class_name: "Relationship", foreign_key: :parent_id
 ```
 

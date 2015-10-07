@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-06T23:40:24-07:00</updated>
+  <updated>2015-10-07T00:30:31-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -41,21 +41,21 @@ named <code>humans</code> instead of <code>humen</code> which it will automatica
 with a model named <code>Human</code>. This can be demonstrated by typing the following
 command into the rails console:</p>
 
-<pre><code>“human”.tableize =&gt; “humen”
+<pre><code class="bash">“human”.tableize =&gt; “humen”
 </code></pre>
 
 <p>So long as you have a foreign key called <code>human_id</code> in the gods table, rails
-will figure out the association and let you call things like
-<code>
-zeus.human =&gt; #&lt;Human id: 1, name: “bob"&gt;
-</code> and</p>
+will figure out the association and let you call things like</p>
 
-<pre><code>bob.gods =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: "Zeus", human_id: 1&gt;, #&lt;God id: 2, name: "Athena", human_id: 1&gt;]&gt;
+<pre><code class="bash">zeus.human =&gt; #&lt;Human id: 1, name: “bob"&gt;
+</code></pre>
+
+<pre><code class="bash">bob.gods =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: "Zeus", human_id: 1&gt;, #&lt;God id: 2, name: "Athena", human_id: 1&gt;]&gt;
 </code></pre>
 
 <p>The <code>has_many :gods</code> line in the Human model is just a rails convention for the following method:</p>
 
-<pre><code>  def gods
+<pre><code class="ruby">  def gods
     God.where(human_id: self.id)
   end
 </code></pre>
@@ -64,7 +64,7 @@ zeus.human =&gt; #&lt;Human id: 1, name: “bob"&gt;
 
 <p>Likewise, the <code>belongs_to :human</code> line in the God model is a rails convention for the following method:</p>
 
-<pre><code>  def human
+<pre><code class="ruby">  def human
     Human.find(self.human_id)
   end
 </code></pre>
@@ -75,7 +75,7 @@ zeus.human =&gt; #&lt;Human id: 1, name: “bob"&gt;
 
 <p>First we’ll create a new table called <code>relationships</code>. The model that hooks up to that table will look like this:</p>
 
-<pre><code>class Relationship &lt; ActiveRecord::Base
+<pre><code class="ruby">class Relationship &lt; ActiveRecord::Base
   belongs_to :god
   belongs_to :human
 end
@@ -90,14 +90,15 @@ end
 </code></pre>
 
 <p>If the relationships table has a row with god_id equal to 1 and human_id equal to 1 and another row with god_id equal
-to 1 and human_id equal to 2 and we do this:
-<code>
-zeus = God.first
-</code></p>
+to 1 and human_id equal to 2 and we do this:</p>
+
+<pre><code class="bash">zeus = God.first
+</code></pre>
 
 <p>then we get this:</p>
 
-<p> <code>zeus.humans =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Human id: 2, name: "marcus"&gt;, #&lt;Human id: 1, name: "maximus"&gt;]&gt;</code></p>
+<pre><code class="bash">zeus.humans =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Human id: 2, name: "marcus"&gt;, #&lt;Human id: 1, name: "maximus"&gt;]&gt;
+</code></pre>
 
 <p>the rails convention <code>has_many :humans, through: :relationships</code> is the same as writing this method. The difference
 is the convention returns an ActiveRecord_Associations_CollectionProxy and the
@@ -119,12 +120,12 @@ it got from the previous query.</p>
 <p>If the relationships table has a row with god_id equal to 1 and human_id equal
 to 1 and another row with god_id equal to 2 and human_id equal to 1, and we do this:</p>
 
-<pre><code>max = Human.first
+<pre><code class="bash">max = Human.first
 </code></pre>
 
 <p>then we get this:</p>
 
-<pre><code>max.gods  =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: "Zeus", human_id: 1&gt;, #&lt;God id: 2, name: "Athena", human_id: 1&gt;]&gt;
+<pre><code class="bash">max.gods  =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: "Zeus", human_id: 1&gt;, #&lt;God id: 2, name: "Athena", human_id: 1&gt;]&gt;
 </code></pre>
 
 <p>The rails convention</p>
@@ -137,9 +138,9 @@ an ActiveRecord_Associations_CollectionProxy and the method below returns an
 array. This is a minor difference because you just need to call <code>to_a</code> on
 it to turn it into an array.</p>
 
-<pre><code> def gods
-    God.find(Relationship.where(human_id: self.id).pluck(:god_id))
-  end
+<pre><code class="ruby"> def gods
+   God.find(Relationship.where(human_id: self.id).pluck(:god_id))
+ end
 </code></pre>
 
 <p>As you can see from the method, this convention assumes you are querying the relationships table for all entries where the human_id foreign key is equal to the primary key of the object the <code>gods</code> method is being called on.  It then assumes you want a list of all the gods
@@ -165,7 +166,7 @@ for the God class/model.</p>
 
 <p>The God class will need these two additional lines of code:</p>
 
-<pre><code>has_many :children, class_name: "Relationship", foreign_key: :parent_id
+<pre><code class="ruby">has_many :children, class_name: "Relationship", foreign_key: :parent_id
 has_many :parents, class_name: "Relationship", foreign_key: :child_id
 </code></pre>
 
@@ -180,7 +181,7 @@ and <code>belongs_to :child, class_name: “God”</code> which tell rails to as
 
 <p>This line</p>
 
-<pre><code>has_many :children, class_name: "Relationship", foreign_key: :parent_id
+<pre><code class="ruby">has_many :children, class_name: "Relationship", foreign_key: :parent_id
 </code></pre>
 
 <p>is essentially the same as writing this method below with the exception that the method

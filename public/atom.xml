@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-06T23:40:24-07:00</updated>
+  <updated>2015-10-07T00:30:31-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -53,7 +53,7 @@ with a model named <code>Human</code>. This can be demonstrated by typing the fo
 command into the rails console:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">“</span><span class="n">human</span><span class="err">”</span><span class="o">.</span><span class="n">tableize</span> <span class="o">=&gt;</span> <span class="err">“</span><span class="n">humen</span><span class="err">”</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>“human”.tableize <span class="o">=</span>&gt; “humen”
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -61,14 +61,14 @@ command into the rails console:</p>
 will figure out the association and let you call things like</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">zeus</span><span class="o">.</span><span class="n">human</span> <span class="o">=&gt;</span> <span class="c1">#&lt;Human id: 1, name: “bob&quot;&gt;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>zeus.human <span class="o">=</span>&gt; <span class="c">#&lt;Human id: 1, name: “bob&quot;&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p> and</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">bob</span><span class="o">.</span><span class="n">gods</span> <span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: &quot;Zeus&quot;, human_id: 1&gt;, #&lt;God id: 2, name: &quot;Athena&quot;, human_id: 1&gt;]&gt;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bob.gods <span class="o">=</span>&gt; <span class="c">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: &quot;Zeus&quot;, human_id: 1&gt;, #&lt;God id: 2, name: &quot;Athena&quot;, human_id: 1&gt;]&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -130,13 +130,16 @@ will figure out the association and let you call things like</p>
 to 1 and human_id equal to 2 and we do this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">zeus</span> <span class="o">=</span> <span class="no">God</span><span class="o">.</span><span class="n">first</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">zeus</span> <span class="o">=</span> God.first
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>then we get this:</p>
 
-<p> <code>zeus.humans =&gt; #&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Human id: 2, name: "marcus"&gt;, #&lt;Human id: 1, name: "maximus"&gt;]&gt;</code></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>zeus.humans <span class="o">=</span>&gt; <span class="c">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Human id: 2, name: &quot;marcus&quot;&gt;, #&lt;Human id: 1, name: &quot;maximus&quot;&gt;]&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>the rails convention <code>has_many :humans, through: :relationships</code> is the same as writing this method. The difference
 is the convention returns an ActiveRecord_Associations_CollectionProxy and the
@@ -163,14 +166,14 @@ it got from the previous query.</p>
 to 1 and another row with god_id equal to 2 and human_id equal to 1, and we do this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span> <span class="o">=</span> <span class="no">Human</span><span class="o">.</span><span class="n">first</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">max</span> <span class="o">=</span> Human.first
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>then we get this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span><span class="o">.</span><span class="n">gods</span>  <span class="o">=&gt;</span> <span class="c1">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: &quot;Zeus&quot;, human_id: 1&gt;, #&lt;God id: 2, name: &quot;Athena&quot;, human_id: 1&gt;]&gt;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>max.gods  <span class="o">=</span>&gt; <span class="c">#&lt;ActiveRecord::Associations::CollectionProxy [#&lt;God id: 1, name: &quot;Zeus&quot;, human_id: 1&gt;, #&lt;God id: 2, name: &quot;Athena&quot;, human_id: 1&gt;]&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -190,8 +193,8 @@ it to turn it into an array.</p>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="k">def</span> <span class="nf">gods</span>
-</span><span class='line'>    <span class="no">God</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="no">Relationship</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">human_id</span><span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:god_id</span><span class="p">))</span>
-</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>   <span class="no">God</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="no">Relationship</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">human_id</span><span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:god_id</span><span class="p">))</span>
+</span><span class='line'> <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
