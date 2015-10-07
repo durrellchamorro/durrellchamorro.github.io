@@ -18,7 +18,7 @@ layout: default
 
     <div class="article-list">
       <div class="container">
-        {% for post in paginator.posts %}
+        {% for post in site.posts %}
           {% assign content = post.content %}
           <div class="row">
             <div class="col-md-offset-3 col-md-6">

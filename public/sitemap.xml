@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://durrellchamorro.github.io/blog/2015/10/05/self-referential-associations-in-rails/</loc>
+    <lastmod>2015-10-05T12:25:45-07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://durrellchamorro.github.io/blog/2015/08/17/be-aware-of-app-not-being-aware-of-database-data/</loc>
+    <lastmod>2015-08-17T14:40:25-07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://durrellchamorro.github.io/blog/2015/07/03/rails-magic-with-partials/</loc>
+    <lastmod>2015-07-03T06:33:02-07:00</lastmod>
+  </url>
+  <url>
+    <loc>http://durrellchamorro.github.io/blog/</loc>
+  </url>
+  <url>
+    <loc>http://durrellchamorro.github.io/archives/</loc>
+  </url>
+  <url>
+    <loc>http://durrellchamorro.github.io/blog/archives/</loc>
+  </url>
+  <url>
+    <loc>http://durrellchamorro.github.io/</loc>
+  </url>
+  <url>
+    <loc>http://durrellchamorro.github.io/posts/</loc>
+  </url>
+  <url>
+    <loc>http://durrellchamorro.github.io/blog/categories/rails/</loc>
+  </url>
+</urlset>
