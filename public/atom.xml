@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-07T00:30:31-07:00</updated>
+  <updated>2015-10-14T17:31:12-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -12,6 +12,219 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Generate Slugs]]></title>
+    <link href="http://durrellchamorro.github.io/blog/2015/10/13/how-to-generate-slugs/"/>
+    <updated>2015-10-13T20:06:52-07:00</updated>
+    <id>http://durrellchamorro.github.io/blog/2015/10/13/how-to-generate-slugs</id>
+    <content type="html"><![CDATA[<p>Slugs make pretty URLs. Pretty URLs help optimize your app for search engines and they
+hide sensitive database information. In this post, I&rsquo;ll explain, line by line, one approach
+to generating slugs. <!--more--></p>
+
+<p>Here is the code I will explain. You can include it in your project as
+a gem by putting <code>gem 'sluggable_durrell'</code> in your Gemfile or you can just copy
+the code below into a module.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Sluggable</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">before_save</span> <span class="ss">:generate_slug</span>
+</span><span class='line'>    <span class="n">class_attribute</span> <span class="ss">:slug_column</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_param</span>
+</span><span class='line'>    <span class="n">slug</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">generate_slug</span>
+</span><span class='line'>    <span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">slug_column</span><span class="o">.</span><span class="n">to_sym</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">while</span> <span class="n">object</span> <span class="o">&amp;&amp;</span> <span class="n">object</span> <span class="o">!=</span> <span class="nb">self</span>
+</span><span class='line'>      <span class="n">the_slug</span> <span class="o">=</span> <span class="n">append_suffix</span><span class="p">(</span><span class="n">the_slug</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">the_slug</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">append_suffix</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">to_i</span> <span class="o">!=</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">str</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_slug</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">str</span> <span class="o">=</span> <span class="nb">name</span><span class="o">.</span><span class="n">parameterize</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">sluggable_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+</span><span class='line'>      <span class="nb">self</span><span class="o">.</span><span class="n">slug_column</span> <span class="o">=</span> <span class="n">column_name</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To make a long story short, this line lets the methods
+in the <code>Sluggable</code> module become instance methods of the class that includes the <code>Sluggable</code> module.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">included</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">before_save</span> <span class="ss">:generate_slug</span>
+</span><span class='line'>  <span class="n">class_attribute</span> <span class="ss">:slug_column</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This fires the code inside the do block when the module is included in the class.
+The <code>before_save</code> method tells the class to call <code>generate_slug</code> on each instance of the class
+before the instance is saved. The <code>class_attribute</code> method adds an attribute named <code>slug_column</code> to the
+class.</p>
+
+<p>Let&rsquo;s say you have a Categories controller with a <code>show</code> action like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>  <span class="vi">@category</span> <span class="o">=</span> <span class="no">Category</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s say you have a corresponding view, <code>/views/categories/show.html.erb</code> and you have the line: <code>resources :categories</code>
+in your <code>routes.rb</code> file which gives you a <code>category_path</code>
+helper such that you can link to this show page like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="vi">@category</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">category_path</span><span class="p">(</span><span class="vi">@category</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>or if you prefer the shorter way:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="vi">@category</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="vi">@category</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you hover over the link with your mouse in Chrome, you will see the URL
+that link points to in the bottom left hand corner of your browser. In this case
+the development URL might look something like this:
+<code>http://localhost:3000/categories/1</code>. This is what we would expect since if you go to
+<code>http://localhost:3000/rails/info/routes</code> you will see the path for the <code>category_path</code> helper
+is <code>/categories/:id(.:format)</code>.</p>
+
+<p>The 1 at the end of the URL in the example above is is the <code>:id</code> or in other words the
+primary key for that particular category. How does the link know to point to the correct <code>:id</code> if
+all it is given is the <code>@category</code> object? The trick is behind the scenes rails calls <code>to_param</code> on
+<code>@category</code> and <code>to_param</code> returns the primary key in a string as shown below in the rails console.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">category</span> <span class="o">=</span> Category.first
+</span><span class='line'>category.to_param
+</span><span class='line'> <span class="o">=</span>&gt; <span class="s2">&quot;1&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With that being said I can now explain why the <code>to_param</code> method is overridden in the Sluggable module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">to_param</span>
+</span><span class='line'>  <span class="n">slug</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead of returning the primary key of the category, we want to return the slug so the URL
+will read like this instead <code>http://localhost:3000/categories/programming</code>. If you put a
+<code>binding.pry</code> in the show action like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>   19: def <span class="nv">show</span>
+</span><span class='line'><span class="o">=</span>&gt; 20:   binding.pry
+</span><span class='line'>   21:   @category <span class="o">=</span> Category.find<span class="o">(</span>params<span class="o">[</span>:id<span class="o">])</span>
+</span><span class='line'>   22: end
+</span><span class='line'>
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span> pry<span class="o">(</span><span class="c">#&lt;CategoriesController&gt;)&gt; params</span>
+</span><span class='line'><span class="o">=</span>&gt; <span class="o">{</span><span class="s2">&quot;action&quot;</span><span class="o">=</span>&gt;<span class="s2">&quot;show&quot;</span>, <span class="s2">&quot;controller&quot;</span><span class="o">=</span>&gt;<span class="s2">&quot;categories&quot;</span>, <span class="s2">&quot;id&quot;</span><span class="o">=</span>&gt;<span class="s2">&quot;programming&quot;</span><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>you can see that the <code>:id</code> is now equal to the slug value instead of the primary key which is what we&rsquo;d
+expect since we overrode the <code>to_param</code> method to return the slug instead of the primary key. In this example,
+I already generated the slug for this category which is why it returned &ldquo;programming&rdquo;. Now I can explain how to
+generate the slug.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Self Referential Associations in Rails]]></title>
