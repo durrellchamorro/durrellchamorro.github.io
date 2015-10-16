@@ -395,7 +395,7 @@ is nil, the while loop will be skipped. This line:</p>
 
 <p>sets the slug column equal to &ldquo;programming&rdquo;. Since we called
 <code>before_save :generate_slug</code> the slug will be generated in the create action when
-<code>@category = Category.new(category_params)</code> is called. Then the slug will be saved to the database with the @category instance
+<code>@category = Category.new(category_params)</code> is called. Then the slug will be saved to the database with the <code>@category</code> instance
 when the create action calls <code>@category.save</code>.</p>
 
 <p>Let&rsquo;s say there is already a &ldquo;programming&rdquo; category and a user creates a category named &ldquo;programming&rdquo; again. We
@@ -515,7 +515,23 @@ finally a unique string.</p>
 <p>Finally, the last line of the <code>generate_slug</code> method sets the slug column of <code>self</code>
 to the string <code>the_slug</code> was set to. (<code>self</code> is the object <code>generate_slug</code> is being called on.
 The example I&rsquo;ve used throughout this post has been <code>@category.generate_slug</code>)
-When <code>@category</code> is saved in the create action, <code>@category.slug</code> will equal something like &ldquo;programming-2&rdquo;.</p>
+When <code>@category</code> is saved in the create action, <code>@category.slug</code> will equal something like &ldquo;programming-2&rdquo;.
+Now wherever you look up a resource that has been slugified you have to change this format:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@category</span> <span class="o">=</span> <span class="no">Category</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@category</span> <span class="o">=</span> <span class="no">Category</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>because <code>find</code> will look for a primary key, but <code>params[:id]</code> returns a slug now
+since the <code>to_param</code> method is overridden to return the slug instead of the primary key.</p>
 
 
         <hr class="divider-short"/>
