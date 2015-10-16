@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-16T01:43:13-07:00</updated>
+  <updated>2015-10-16T01:49:16-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -215,7 +215,8 @@ downcase is called on it to remove all uppercase characters. This way we&rsquo;l
 <pre><code class="ruby">def generate_slug
   the_slug = to_slug(self.send(self.class.slug_column))
   #in our ongoing example, the line above becomes: the_slug = "programming"
-  #in our ongoing example, the line below becomes: object = Category.find_by(slug: "programming")
+  #in our ongoing example, the line below becomes:
+  #object = Category.find_by(slug: "programming")
   object = self.class.find_by(slug: the_slug)
 ...
 end
