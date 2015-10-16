@@ -211,13 +211,13 @@ downcase is called on it to remove all uppercase characters. This way we'll have
 def generate_slug
   the_slug = to_slug(self.send(self.class.slug_column))
   #in our ongoing example, the line above becomes: the_slug = "programming"
+  #in our ongoing example, the line below becomes: object = Category.find_by(slug: "programming")
   object = self.class.find_by(slug: the_slug)
 ...
 end
 ```
 
-we are setting the local variable ``object`` equal to ``Category.find_by(slug: "programming")``. In
-this case ``object`` will equal ``nil`` because we haven't saved the new category to the database yet and we are assuming
+In this case ``object`` will equal ``nil`` because we haven't saved the new category to the database yet and we are assuming
 I didn't already save a category named "programming". Since ``object``
 is nil, the while loop will be skipped. This line:
 
@@ -230,7 +230,7 @@ sets the slug column equal to "programming". Since we called
 ``@category = Category.new(category_params)`` is called. Then the slug will be saved to the database with the @category instance
 when the create action calls ``@category.save``.
 
-Let's say there is already a 'programming' category and a user creates a category named 'programming' again. We
+Let's say there is already a "programming" category and a user creates a category named "programming" again. We
 don't want different pages to have identical URLs. The solution is to append a suffix to
 "programming" and make sure that suffix is never the same. This example might seem contrived, but if you are
 generating the slug based on, say, the title of a post instead of the name of a category, then it is realistic to think
@@ -246,8 +246,8 @@ object = self.class.find_by(slug: the_slug)
 ```
 
 so the first condition of the while loop will be met. The second condition is that ``object`` not
-be equal to ``self``. That condition is necessary in case ``self`` is only being updated. If self is being updated,
-object will equal self and we don't want to append anything to the URL. In the case where self is being created ``object``
+be equal to ``self``. That condition is necessary in case ``self`` is only being updated. If ``self`` is being updated,
+``object`` will equal ``self`` and we don't want to append anything to the URL. In the case where ``self`` is being created ``object``
 will instead be equal to the previous instance of Category with "programming" in the slug column
 so both conditions of the while loop will be true. In the line below ``the_slug`` is being set to "programming-2".
 Let's look at how the ``append_suffix`` method works.
