@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-14T17:47:19-07:00</updated>
+  <updated>2015-10-15T18:38:13-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -81,7 +81,7 @@ the code below into a module.</p>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">generate_slug</span>
-</span><span class='line'>    <span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">slug_column</span><span class="o">.</span><span class="n">to_sym</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">slug_column</span><span class="p">))</span>
 </span><span class='line'>    <span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span>
 </span><span class='line'>    <span class="k">while</span> <span class="n">object</span> <span class="o">&amp;&amp;</span> <span class="n">object</span> <span class="o">!=</span> <span class="nb">self</span>
@@ -89,19 +89,19 @@ the code below into a module.</p>
 </span><span class='line'>      <span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
 </span><span class='line'>      <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 </span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">the_slug</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">the_slug</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">append_suffix</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">to_i</span> <span class="o">!=</span> <span class="mi">0</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">append_suffix</span><span class="p">(</span><span class="n">the_slug</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">the_slug</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">to_i</span> <span class="o">!=</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">the_slug</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">to_s</span>
 </span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">str</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">the_slug</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">to_s</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">to_slug</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">str</span> <span class="o">=</span> <span class="nb">name</span><span class="o">.</span><span class="n">parameterize</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>    <span class="nb">name</span><span class="o">.</span><span class="n">parameterize</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">downcase</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
@@ -121,7 +121,10 @@ the code below into a module.</p>
 
 
 <p>To make a long story short, this line lets the methods
-in the <code>Sluggable</code> module become instance methods of the class that includes the <code>Sluggable</code> module.</p>
+in the <code>Sluggable</code> module become instance methods of the class that includes the <code>Sluggable</code> module. It
+also looks for a module named <code>ClassMethods</code> and includes the methods inside the <code>ClassMethods</code> module as
+class methods of the class that includes the Sluggable module. Click <a href="http://www.fakingfantastic.com/2010/09/20/concerning-yourself-with-active-support-concern/">here</a>
+for a more in depth explanation of how <code>ActiveSupport::Concern</code> works.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -223,6 +226,246 @@ will read like this instead <code>http://localhost:3000/categories/programming</
 expect since we overrode the <code>to_param</code> method to return the slug instead of the primary key. In this example,
 I already generated the slug for this category which is why it returned &ldquo;programming&rdquo;. Now I can explain how to
 generate the slug.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">generate_slug</span>
+</span><span class='line'>  <span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">slug_column</span><span class="p">))</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>self.class</code> returns the class of <code>self</code> so in our example <code>self.class.slug_column</code>
+is the same as <code>Category.slug_column</code>. The reason we can call <code>slug_column</code> on the Category
+class is because as I explained in the beginning, ActiveSupport::Concern looks for a module named ClassMethods
+and includes all the methods inside that module as class methods of the class that includes the Sluggable module. In
+our example the Category class/model looks something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Category</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Sluggable</span>
+</span><span class='line'>  <span class="n">sluggable_column</span> <span class="ss">:name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, the <code>name</code> column from the categories table is being sent to the <code>sluggable_column</code> method as a
+symbol.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">sluggable_column</span><span class="p">(</span><span class="n">column_name</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">slug_column</span> <span class="o">=</span> <span class="n">column_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>sluggable_column</code> method takes <code>:name</code> and sets the <code>slug_column</code> attribute equal to <code>:name</code>.
+Therefore, <code>self.class.slug_column</code> is equal to <code>:name</code> as demonstrated in the rails console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">category</span> <span class="o">=</span> Category.first
+</span><span class='line'>category.class.slug_column
+</span><span class='line'><span class="o">=</span>&gt; :name
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> Now we can read:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">slug_column</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>self.send(:name)</code> is the same as <code>self.name</code> so we can just read this as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">the</span> <span class="n">slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now I can explain what the <code>to_slug</code> method does.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">to_slug</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">name</span><span class="o">.</span><span class="n">parameterize</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>self.name</code>returns a string and the <code>parameterize</code> method is being called on that string. The
+<code>parameterize</code> method replaces special characters in a string so that it may be used as part of a ‘pretty’ URL.
+The <code>parameterize</code> method doesn&rsquo;t replace the underscore character so <code>gsub</code> is called on the string to remove any underscore and then
+downcase is called on it to remove all uppercase characters. This way we&rsquo;ll have a string that can be used in a URL.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">generate_slug</span>
+</span><span class='line'>  <span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">slug_column</span><span class="p">))</span>
+</span><span class='line'>  <span class="c1">#in our ongoing example, the line above becomes: the_slug = &quot;programming&quot;</span>
+</span><span class='line'>  <span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>we are setting the local variable <code>object</code> equal to <code>Category.find_by(slug: "programming")</code>. In
+this case <code>object</code> will equal <code>nil</code> because we haven&rsquo;t saved the new category to the database yet and we are assuming
+I didn&rsquo;t already save a category named &ldquo;programming&rdquo;. Since <code>object</code>
+is nil, the while loop will be skipped. This line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">self</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">the_slug</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sets the slug column equal to &ldquo;programming&rdquo;. Since we called
+<code>before_save :generate_slug</code> the slug will be generated in the create action when
+<code>@category = Category.new(category_params)</code> is called. Then the slug will be saved to the database with the @category instance
+when the create action calls <code>@category.save</code>.</p>
+
+<p>Let&rsquo;s say there is already a &lsquo;programming&rsquo; category and a user creates a category named &lsquo;programming&rsquo; again. We
+don&rsquo;t want different pages to have identical URLs. The solution is to append a suffix to
+&ldquo;programming&rdquo; and make sure that suffix is never the same. This example might seem contrived, but if you are
+generating the slug based on, say, the title of a post instead of the name of a category, then it is realistic to think
+more than one user might have thought of the same post title. Another way around this is to validate the uniqueness of the
+sluggable column in the model, but appending a suffix like this allows for flexibility in design and adds a layer
+of protection against duplicate URLs.</p>
+
+<p>Continuing with our example, since there is already an instance of Category with &ldquo;programming&rdquo; in the slug column, this time <code>object</code> will not be
+equal to <code>nil</code> at this point in the method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>so the first condition of the while loop will be met. The second condition is that <code>object</code> not
+be equal to <code>self</code>. That condition is necessary in case <code>self</code> is only being updated. If self is being updated,
+object will equal self and we don&rsquo;t want to append anything to the URL. In the case where self is being created <code>object</code>
+will instead be equal to the previous instance of Category with &ldquo;programming&rdquo; in the slug column
+so both conditions of the while loop will be true. In the line below <code>the_slug</code> is being set to &ldquo;programming-2&rdquo;.
+Let&rsquo;s look at how the <code>append_suffix</code> method works.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">the_slug</span> <span class="o">=</span> <span class="n">append_suffix</span><span class="p">(</span><span class="n">the_slug</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first line of the <code>append_suffix</code> method is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">the_slug</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">to_i</span> <span class="o">!=</span> <span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is saying, since the <code>parameterize</code> method used inside the <code>to_slug</code> method generates
+a string that replaces spaces with dashes, <code>the_slug</code> should either be a one word string,
+or it should be a string of any number of words separated by dashes instead of spaces.
+Therefore, call split on that string to get an array formatted like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">the_slug</span> <span class="o">=</span> <span class="s2">&quot;a-url-safe-string&quot;</span>
+</span><span class='line'>the_slug.split<span class="o">(</span><span class="s1">&#39;-&#39;</span><span class="o">)</span>
+</span><span class='line'><span class="o">=</span>&gt; <span class="o">[</span><span class="s2">&quot;a&quot;</span>, <span class="s2">&quot;url&quot;</span>, <span class="s2">&quot;safe&quot;</span>, <span class="s2">&quot;string&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>then it takes the last element in that array and calls <code>to_i</code> on it. Calling <code>to_i</code> on
+a string of letters returns 0, and calling <code>to_i</code> on a string that only contains a Fixnum or a Float
+returns the appropriate integer.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">append_suffix</span><span class="p">(</span><span class="n">the_slug</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">the_slug</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">to_i</span> <span class="o">!=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">the_slug</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">the_slug</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Therefore, this is saying if the last element in the array is a number, then take all the elements
+but the last one in that array and put them into a string, separating them with a
+dash. Then add a dash to the end of the string and then add the integer <code>count</code> equals to the end
+of the string such that if <code>the_slug</code> was <code>"programming-2"</code> it would become <code>"programming-3"</code>
+Otherwise, the last element in the array is not a number, so just add a dash to the end of <code>the_slug</code> and
+then add the integer <code>count</code> equals to the end of <code>the_slug</code> such that if <code>the_slug</code> was <code>"programming"</code>
+it would become <code>"programming-2"</code>.</p>
+
+<p>Now, back to the next line of the while loop inside the <code>generate_slug</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is resetting <code>object</code>. If there is an instance of Category saved in the database
+with a slug value equal to <code>the_slug</code> then <code>object</code> will be truthy so the loop will continue.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">generate_slug</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">object</span> <span class="o">&amp;&amp;</span> <span class="n">object</span> <span class="o">!=</span> <span class="nb">self</span>
+</span><span class='line'>    <span class="n">the_slug</span> <span class="o">=</span> <span class="n">append_suffix</span><span class="p">(</span><span class="n">the_slug</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">the_slug</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The next time around <code>count</code> will be one number greater which means <code>the_slug</code>
+will have a different number appended to it which means <code>object</code> will be
+set to something different. This loop will continue until <code>object</code> is falsy which means <code>the_slug</code> is
+finally a unique string.</p>
+
+<p>Finally, the last line of the <code>generate_slug</code> method sets the slug column of <code>self</code>
+to the string <code>the_slug</code> was set to. (<code>self</code> is the object <code>generate_slug</code> is being called on.
+The example I&rsquo;ve used throughout this post has been <code>@category.generate_slug</code>)
+When <code>@category</code> is saved in the create action, <code>@category.slug</code> will equal something like &ldquo;programming-2&rdquo;.</p>
 ]]></content>
   </entry>
   
