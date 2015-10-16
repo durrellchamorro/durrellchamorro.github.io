@@ -228,7 +228,7 @@ self.slug = the_slug
 
 sets the slug column equal to "programming". Since we called
 ``before_save :generate_slug`` the slug will be generated in the create action when
-``@category = Category.new(category_params)`` is called. Then the slug will be saved to the database with the @category instance
+``@category = Category.new(category_params)`` is called. Then the slug will be saved to the database with the ``@category`` instance
 when the create action calls ``@category.save``.
 
 Let's say there is already a "programming" category and a user creates a category named "programming" again. We
@@ -325,6 +325,22 @@ Finally, the last line of the ``generate_slug`` method sets the slug column of `
 to the string ``the_slug`` was set to. (``self`` is the object ``generate_slug`` is being called on.
 The example I've used throughout this post has been ``@category.generate_slug``)
 When ``@category`` is saved in the create action, ``@category.slug`` will equal something like "programming-2".
+Now wherever you look up a resource that has been slugified you have to change this format:
+
+```ruby
+@category = Category.find(params[:id])
+```
+
+to this:
+
+```ruby
+@category = Category.find_by(slug: params[:id])
+```
+
+because ``find`` will look for a primary key, but ``params[:id]`` returns a slug now
+since the ``to_param`` method is overridden to return the slug instead of the primary key.
+
+
 
 
 
