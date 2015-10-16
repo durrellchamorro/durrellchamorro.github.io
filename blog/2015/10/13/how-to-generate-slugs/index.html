@@ -371,17 +371,18 @@ downcase is called on it to remove all uppercase characters. This way we&rsquo;l
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">generate_slug</span>
 </span><span class='line'>  <span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">slug_column</span><span class="p">))</span>
 </span><span class='line'>  <span class="c1">#in our ongoing example, the line above becomes: the_slug = &quot;programming&quot;</span>
+</span><span class='line'>  <span class="c1">#in our ongoing example, the line below becomes: object = Category.find_by(slug: &quot;programming&quot;)</span>
 </span><span class='line'>  <span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
 </span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>we are setting the local variable <code>object</code> equal to <code>Category.find_by(slug: "programming")</code>. In
-this case <code>object</code> will equal <code>nil</code> because we haven&rsquo;t saved the new category to the database yet and we are assuming
+<p>In this case <code>object</code> will equal <code>nil</code> because we haven&rsquo;t saved the new category to the database yet and we are assuming
 I didn&rsquo;t already save a category named &ldquo;programming&rdquo;. Since <code>object</code>
 is nil, the while loop will be skipped. This line:</p>
 
@@ -395,7 +396,7 @@ is nil, the while loop will be skipped. This line:</p>
 <code>@category = Category.new(category_params)</code> is called. Then the slug will be saved to the database with the @category instance
 when the create action calls <code>@category.save</code>.</p>
 
-<p>Let&rsquo;s say there is already a &lsquo;programming&rsquo; category and a user creates a category named &lsquo;programming&rsquo; again. We
+<p>Let&rsquo;s say there is already a &ldquo;programming&rdquo; category and a user creates a category named &ldquo;programming&rdquo; again. We
 don&rsquo;t want different pages to have identical URLs. The solution is to append a suffix to
 &ldquo;programming&rdquo; and make sure that suffix is never the same. This example might seem contrived, but if you are
 generating the slug based on, say, the title of a post instead of the name of a category, then it is realistic to think
@@ -412,8 +413,8 @@ equal to <code>nil</code> at this point in the method:</p>
 
 
 <p>so the first condition of the while loop will be met. The second condition is that <code>object</code> not
-be equal to <code>self</code>. That condition is necessary in case <code>self</code> is only being updated. If self is being updated,
-object will equal self and we don&rsquo;t want to append anything to the URL. In the case where self is being created <code>object</code>
+be equal to <code>self</code>. That condition is necessary in case <code>self</code> is only being updated. If <code>self</code> is being updated,
+<code>object</code> will equal <code>self</code> and we don&rsquo;t want to append anything to the URL. In the case where <code>self</code> is being created <code>object</code>
 will instead be equal to the previous instance of Category with &ldquo;programming&rdquo; in the slug column
 so both conditions of the while loop will be true. In the line below <code>the_slug</code> is being set to &ldquo;programming-2&rdquo;.
 Let&rsquo;s look at how the <code>append_suffix</code> method works.</p>
