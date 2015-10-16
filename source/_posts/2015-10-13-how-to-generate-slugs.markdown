@@ -211,7 +211,8 @@ downcase is called on it to remove all uppercase characters. This way we'll have
 def generate_slug
   the_slug = to_slug(self.send(self.class.slug_column))
   #in our ongoing example, the line above becomes: the_slug = "programming"
-  #in our ongoing example, the line below becomes: object = Category.find_by(slug: "programming")
+  #in our ongoing example, the line below becomes:
+  #object = Category.find_by(slug: "programming")
   object = self.class.find_by(slug: the_slug)
 ...
 end

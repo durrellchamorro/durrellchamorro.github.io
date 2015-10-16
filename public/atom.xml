@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-16T01:32:44-07:00</updated>
+  <updated>2015-10-16T01:47:02-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -325,10 +325,12 @@ downcase is called on it to remove all uppercase characters. This way we&rsquo;l
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">generate_slug</span>
 </span><span class='line'>  <span class="n">the_slug</span> <span class="o">=</span> <span class="n">to_slug</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">slug_column</span><span class="p">))</span>
 </span><span class='line'>  <span class="c1">#in our ongoing example, the line above becomes: the_slug = &quot;programming&quot;</span>
-</span><span class='line'>  <span class="c1">#in our ongoing example, the line below becomes: object = Category.find_by(slug: &quot;programming&quot;)</span>
+</span><span class='line'>  <span class="c1">#in our ongoing example, the line below becomes:</span>
+</span><span class='line'>  <span class="c1">#object = Category.find_by(slug: &quot;programming&quot;)</span>
 </span><span class='line'>  <span class="n">object</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">slug</span><span class="p">:</span> <span class="n">the_slug</span><span class="p">)</span>
 </span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span>
 </span><span class='line'><span class="k">end</span>
