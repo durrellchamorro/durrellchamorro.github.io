@@ -9,9 +9,11 @@ Slugs make pretty URLs. Pretty URLs help optimize your app for search engines an
 hide sensitive database information. In this post, I'll explain, line by line, one approach
 to generating slugs. <!--more-->
 
-Here is the code I will explain. You can include it in your project as
-a gem by putting ``gem 'sluggable_durrell'`` in your Gemfile or you can just copy
-the code below into a module.
+Here is the code I will explain. You might find it helpful to read this post in one window
+while another window shows the module below in its entirety. That way as you read about
+a line of code you can see that code in context in the other window. You can copy
+the code below into a ``sluggable.rb`` file for your own project or include it as a gem by putting
+``gem 'sluggable_durrell'`` in your Gemfile.
 
 ```ruby
 module Sluggable

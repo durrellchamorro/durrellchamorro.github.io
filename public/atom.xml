@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-17T09:23:21-07:00</updated>
+  <updated>2015-10-17T09:51:28-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -22,9 +22,11 @@
 hide sensitive database information. In this post, I&rsquo;ll explain, line by line, one approach
 to generating slugs. <!--more--></p>
 
-<p>Here is the code I will explain. You can include it in your project as
-a gem by putting <code>gem 'sluggable_durrell'</code> in your Gemfile or you can just copy
-the code below into a module.</p>
+<p>Here is the code I will explain. You might find it helpful to read this post in one window
+while another window shows the module below in its entirety. That way as you read about
+a line of code you can see that code in context in the other window. You can copy
+the code below into a <code>sluggable.rb</code> file for your own project or include it as a gem by putting
+<code>gem 'sluggable_durrell'</code> in your Gemfile.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
