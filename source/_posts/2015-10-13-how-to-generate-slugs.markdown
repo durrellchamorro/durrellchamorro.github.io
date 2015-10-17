@@ -104,7 +104,7 @@ the development URL might look something like this:
 ``http://localhost:3000/rails/info/routes`` you will see the path for the ``category_path`` helper
 is ``/categories/:id(.:format)``.
 
-The 1 at the end of the URL in the example above is is the ``:id`` or in other words the
+The 1 at the end of the URL in the example above is the ``:id`` or in other words the
 primary key for that particular category. How does the link know to point to the correct ``:id`` if
 all it is given is the ``@category`` object? The trick is behind the scenes rails calls ``to_param`` on
 ``@category`` and ``to_param`` returns the primary key in a string as shown below in the rails console.
