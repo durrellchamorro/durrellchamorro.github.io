@@ -42,9 +42,9 @@ module Sluggable
 
   def append_suffix(the_slug, count)
     if the_slug.split('-').last.to_i != 0
-      return the_slug.split('-').slice(0...-1).join('-') + "-" + count.to_s
+      the_slug.split('-').slice(0...-1).join('-') + "-" + count.to_s
     else
-      return the_slug + "-" + count.to_s
+      the_slug + "-" + count.to_s
     end
   end
 
