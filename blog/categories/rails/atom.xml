@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-10-17T09:53:58-07:00</updated>
+  <updated>2015-10-19T10:37:29-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -54,9 +54,9 @@ the code below into a <code>sluggable.rb</code> file for your own project or inc
 
   def append_suffix(the_slug, count)
     if the_slug.split('-').last.to_i != 0
-      return the_slug.split('-').slice(0...-1).join('-') + "-" + count.to_s
+      the_slug.split('-').slice(0...-1).join('-') + "-" + count.to_s
     else
-      return the_slug + "-" + count.to_s
+      the_slug + "-" + count.to_s
     end
   end
 
