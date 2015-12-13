@@ -49,5 +49,5 @@ end
 
 ```
 This was a nasty bug I had the toughest time figuring out and I'm very thankful to Brandon
-at <a href="http://gotealeaf.com/">Tealeaf Academy</a> for figuring this one out and explaining it to me.
+at <a href="https://launchschool.com">Launch School</a> for figuring this one out and explaining it to me.
 
