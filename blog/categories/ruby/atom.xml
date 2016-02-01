@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-02-01T02:59:30-08:00</updated>
+  <updated>2016-02-01T03:06:14-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -158,7 +158,7 @@ each kind of collection, but there is no one size fits all block because the dat
 the collections are quite different.
 Instead of defining a sorting method for each kind of collection that would have a unique block for <code>#partition</code>
 I created unique procs for each kind of collection and used those procs for <code>#partition</code>&rsquo;s block. In this way
-I wrote one method that sorts different kinds of collections and sends the sorted collection&rsquo;s
+I wrote one method that sorts different kinds of collections and yields the sorted collection&rsquo;s
 items to a custom block.</p>
 
 <pre><code class="ruby">def sort(collection, check_item_status)
