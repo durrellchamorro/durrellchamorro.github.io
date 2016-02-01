@@ -148,8 +148,8 @@ evaluate to true or false for different kinds collections its block needs to be 
 each kind of collection, but there is no one size fits all block because the data structures of
 the collections are quite different.
 Instead of defining a sorting method for each kind of collection that would have a unique block for ``#partition``
-I created unique procs for each kind of collection and used those procs for ``#partition``'s block. In this way
-I wrote one method that sorts different kinds of collections and yields the sorted collection's
+I created a unique proc for each kind of collection to use as ``#partition``'s block with that collection.
+In this way I wrote one method that sorts different kinds of collections and yields the sorted collection's
 items to a custom block.
 
 ```ruby

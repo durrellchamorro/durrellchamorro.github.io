@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-02-01T03:06:14-08:00</updated>
+  <updated>2016-02-01T03:30:03-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -215,8 +215,8 @@ evaluate to true or false for different kinds collections its block needs to be 
 each kind of collection, but there is no one size fits all block because the data structures of
 the collections are quite different.
 Instead of defining a sorting method for each kind of collection that would have a unique block for <code>#partition</code>
-I created unique procs for each kind of collection and used those procs for <code>#partition</code>&rsquo;s block. In this way
-I wrote one method that sorts different kinds of collections and yields the sorted collection&rsquo;s
+I created a unique proc for each kind of collection to use as <code>#partition</code>&rsquo;s block with that collection.
+In this way I wrote one method that sorts different kinds of collections and yields the sorted collection&rsquo;s
 items to a custom block.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
