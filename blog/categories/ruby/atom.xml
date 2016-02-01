@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-02-01T03:30:03-08:00</updated>
+  <updated>2016-02-01T15:25:50-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -73,23 +73,25 @@ a_shorter_way_to_create_a_proc = proc { |object| object.to_s }
 <a href="#RealWorldExample">They helped me combine two methods into one.</a>
 If you have two methods that are the same, except for a block inside the methods and both methods are
 already yielding to a block like below, you can&rsquo;t yield to two different blocks, but you can
-pass in a proc to handle the difference. Below are three methods. The first two can be replaced by the third.
+pass in a proc to handle the difference. Below are three methods. You can&rsquo;t add numbers to strings and
+you can&rsquo;t add strings to numbers hence the need for the first two methods. However, the first two methods
+can be replaced by the third.
 <a href="https://gist.github.com/durrellchamorro/220045206c525bd72f78">Here is code</a> you
-can run in your terminal to see how all the examples in this post work firsthand.</p>
+can run in your terminal to see how most of the examples in this post work firsthand.</p>
 
-<pre><code class="ruby">def my_first_method(array)
-  array.each { |string| p string + ' whatever' }
-  array.each { |object| p yield object }
+<pre><code class="ruby">def my_first_method(array_of_strings)
+  array_of_strings.each { |string| p string + ' whatever' }
+  array_of_strings.each { |object| p yield object }
 end
 
 def my_second_method(array)
-  array.each { |object| p object + 5 }
-  array.each { |object| p yield object }
+  array_of_numbers.each { |number| p number + 5 }
+  array_of_numbers.each { |object| p yield object }
 end
 
-def you_only_need_one_method(array, some_proc)
-  array.each(&amp;some_proc)
-  array.each { |object| p yield object }
+def you_only_need_one_method(array_of_anything, some_proc)
+  array_of_anything.each(&amp;some_proc)
+  array_of_anything.each { |object| p yield object }
 end
 </code></pre>
 
@@ -104,36 +106,45 @@ end
 end
 </code></pre>
 
-<p>Therefore, calling <code>#to_proc</code> on a symbol returns a proc.
-<code>[1, 2].to_s</code> is the same as <code>[1, 2].send(:to_s)</code>.
-Likewise, <code>[1, 2].delete_at(0)</code> is the same as <code>[1, 2].send(:delete_at, 0)</code>.
-With this in mind, consider the following:</p>
+<p>Therefore, calling <code>#to_proc</code> on a symbol returns a proc. The <code>*args</code> means
+the proc can take any number of arguments. In other words, just like blocks, procs don&rsquo;t enforce argument
+count. This formal word for this is <a href="https://en.wikipedia.org/wiki/Arity">Arity</a>.
+The proc created when <code>#to_proc</code> is called on <code>:to_s</code> looks like this:</p>
+
+<pre><code class="ruby">Proc.new { |obj, *args| obj.send(:to_s, *args) }
+</code></pre>
+
+<p>Even though this proc can take more than one argument, you wouldn&rsquo;t want to yield more than one object to the proc
+because the proc would send that object to <code>#to_s</code> and <code>#to_s</code> doesn&rsquo;t take any arguments so you
+would get an <code>ArgumentError</code>. The examples above with <code>#map</code> and <code>:to_s.to_proc</code> work because
+<code>1.send(:to_s)</code> is the same as <code>1.to_s</code>. Likewise, <code>[1, 2].delete_at(0)</code> is the same as
+<code>[1, 2].send(:delete_at, 0)</code>.
+With this in mind, consider the following cases where yielding more than one object will not produce an <code>ArgumentError</code>:</p>
 
 <pre><code class="ruby">def foo!(array, index)
   yield array, index
 end
 
-my_array = [1, 2]
-
-foo!(my_array, 0, &amp;:delete_at) # This is the same as: my_array.delete_at(0)
-
+my_array = [1,2]
+foo!(my_array, 0) { |obj, index|  obj.delete_at(index) }
 my_array # =&gt; [2]
-</code></pre>
 
-<p>The code below proves <code>delete_at_proc</code> and <code>delete_at_proc2</code> are equivalent:</p>
-
-<pre><code class="ruby">delete_at_proc = Proc.new { |obj, index| obj.delete_at(index) }
 my_array = [1, 2]
+foo!(my_array, 0) { |obj, index| obj.send(:delete_at, index) }
+my_array # =&gt; [2]
 
+my_array = [1, 2]
+delete_at_proc = Proc.new { |obj, index| obj.delete_at(index) }
 foo!(my_array, 0, &amp;delete_at_proc)
-
 my_array # =&gt; [2]
 
-delete_at_proc2 = :delete_at.to_proc
 my_array = [1, 2]
-
+delete_at_proc2 = :delete_at.to_proc
 foo!(my_array, 0, &amp;delete_at_proc2)
+my_array # =&gt; [2]
 
+my_array = [1, 2]
+foo!(my_array, 0, &amp;:delete_at)
 my_array # =&gt; [2]
 </code></pre>
 
@@ -154,7 +165,7 @@ which array each element of the collection will go to depending
 on whether <code>#partition</code>&rsquo;s block evaluates to true. Next, each item in the newly created arrays
 is yielded with its original index to the block in a view. In order for <code>#partition</code>&rsquo;s block to
 evaluate to true or false for different kinds collections its block needs to be compatible with
-each kind of collection, but there is no one size fits all block because the data structures of
+each kind of collection. The problem is there is no one size fits all block because the data structures of
 the collections are quite different.
 Instead of defining a sorting method for each kind of collection that would have a unique block for <code>#partition</code>
 I created a unique proc for each kind of collection to use as <code>#partition</code>&rsquo;s block with that collection.
