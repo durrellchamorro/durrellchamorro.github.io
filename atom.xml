@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-01-31T22:38:14-08:00</updated>
+  <updated>2016-02-01T01:43:11-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -204,17 +204,19 @@ at method invocation time.</p>
 
 <h4>2. The block being yielded to can be customized.</h4>
 
-<p><code>#sort</code> uses <code>#partition</code> to split a collection into two arrays: complete and incomplete. <code>#partition</code>
-iterates through each element in the collection and decides
+<p><code>#sort</code> uses <code>#partition</code> to split a collection into two arrays. By using parallel assignment, the first
+array is assigned to the <code>complete_collection</code> local variable and the second array is assigned to the
+<code>incomplete_collection</code> local variable.
+<code>#partition</code> iterates through each element in the collection and decides
 which array each element of the collection will go to depending
-on whether <code>#partition</code>&rsquo;s' block evaluates to true. Next, <code>#sort</code>
-yields each item in the newly created arrays with its original index to the block in a view. Therefore,
-I needed a different way to check the status of different kinds of collections
-in order for <code>#partition</code>&rsquo;s block to evaluate to true or false for the different kinds collections.
+on whether <code>#partition</code>&rsquo;s block evaluates to true. Next, each item in the newly created arrays
+is yielded with its original index to the block in a view. In order for <code>#partition</code>&rsquo;s block to
+evaluate to true or false for different kinds collections the block needed to be compatible with
+each kind of collection, but there was no one size fits all block because the data structures of the collections were
+quite different.
 Instead of defining a sorting method for each kind of collection that would use a unique block for <code>#partition</code>
-made special to evaluate the status of that particular collection&rsquo;s elements, I created unique procs
-for each kind of collection and used those procs for <code>#partition</code>&rsquo;s block. In this way
-I was able to write one method that can sort different kinds of collections and then send the sorted collection&rsquo;s
+I created unique procs for each kind of collection and used those procs for <code>#partition</code>&rsquo;s block. In this way
+I wrote one method that sorts different kinds of collections and sends the sorted collection&rsquo;s
 items to a custom block.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
