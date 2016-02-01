@@ -144,10 +144,10 @@ array is assigned to the ``complete_collection`` local variable and the second a
 which array each element of the collection will go to depending
 on whether ``#partition``'s block evaluates to true. Next, each item in the newly created arrays
 is yielded with its original index to the block in a view. In order for ``#partition``'s block to
-evaluate to true or false for different kinds collections the block needed to be compatible with
-each kind of collection, but there was no one size fits all block because the data structures of the collections were
-quite different.
-Instead of defining a sorting method for each kind of collection that would use a unique block for ``#partition``
+evaluate to true or false for different kinds collections its block needs to be compatible with
+each kind of collection, but there is no one size fits all block because the data structures of
+the collections are quite different.
+Instead of defining a sorting method for each kind of collection that would have a unique block for ``#partition``
 I created unique procs for each kind of collection and used those procs for ``#partition``'s block. In this way
 I wrote one method that sorts different kinds of collections and sends the sorted collection's
 items to a custom block.
