@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-11-28T22:26:42-08:00</updated>
+  <updated>2016-01-31T19:05:26-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -574,7 +574,7 @@ end
 </code></pre>
 
 <p>This was a nasty bug I had the toughest time figuring out and I&rsquo;m very thankful to Brandon
-at <a href="http://gotealeaf.com/">Tealeaf Academy</a> for figuring this one out and explaining it to me.</p>
+at <a href="https://launchschool.com">Launch School</a> for figuring this one out and explaining it to me.</p>
 ]]></content>
   </entry>
   

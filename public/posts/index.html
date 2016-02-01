@@ -13,8 +13,8 @@
   <meta name="author" content="Durrell Chamorro">
 
   
-  <meta name="description" content="All Posts How to Generate Slugs Slugs make pretty URLs. Pretty URLs help optimize your app for search engines and they
-hide sensitive database &hellip;">
+  <meta name="description" content="All Posts Using Procs to DRY Up Ruby Code Ruby code is full of blocks. Blocks are essentially chunks of code that allow you to defer
+the precise way &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -51,6 +51,52 @@ hide sensitive database &hellip;">
 
   <div class="article-list">
     <div class="container">
+      
+      
+      <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+          <article>
+  <h2><a href="/blog/2016/01/30/use-procs-to-dry-up-code/">Using Procs to DRY Up Ruby Code</a></h2>
+  
+  <p>
+    <p><p>Ruby code is full of blocks. Blocks are essentially chunks of code that allow you to defer
+the precise way a method will work to the time of the method invocation. For example,
+if you encounter a scenario where you&rsquo;re calling a method from multiple places,
+with one little tweak in each case, it may be a good idea implement the
+method in a generic way by yielding to a block. By defining one method instead of many similar
+methods your code stays DRY. The problem is Ruby only lets you
+yield to one block per method. In this post I&rsquo;ll explain how to send procs to methods so
+you can tweak your generic methods in more than one way at a time.  Along the way I explain
+how some of Ruby&rsquo;s syntactic sugar works, and I close with a real world example of how I implemented
+all this in an app.</p>
+
+  </p>
+  <span class="meta">
+    written +
++
+
++
++
+<time class='entry-date' datetime='2016-01-30T22:58:51-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:58 pm</span></time>
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+  </span>
+
+  
+    <a class="full-article-link pull-right" rel="full-article" href="/blog/2016/01/30/use-procs-to-dry-up-code/">Read on &rarr;</a>
+  
+</article>
+
+        </div>
+      </div>
       
       
       <div class="row">
