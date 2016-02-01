@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-01-31T20:46:02-08:00</updated>
+  <updated>2016-01-31T21:47:51-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -224,7 +224,7 @@ which array each element of the collection will go to depending
 on whether <code>#partition</code>&rsquo;s' block evaluates to true. Next, <code>#sort</code>
 yields each item in the newly created arrays with its original index to the block in a view. Therefore,
 I needed a different way to check the status of different kinds of collections
-in order for <code>#partition</code>&rsquo;s block to return true or false for the different kinds collections.
+in order for <code>#partition</code>&rsquo;s block to evaluate to true or false for the different kinds collections.
 Instead of defining a sorting method for each kind of collection that would use a unique block for <code>#partition</code>
 made special to evaluate the status of that particular collection&rsquo;s elements, I created unique procs
 for each kind of collection and used those procs for <code>#partition</code>&rsquo;s block. In this way
