@@ -13,8 +13,8 @@
   <meta name="author" content="Durrell Chamorro">
 
   
-  <meta name="description" content="Slugs make pretty URLs. Pretty URLs help optimize your app for search engines and they
-hide sensitive database information. In this post, I&rsquo;ll &hellip;">
+  <meta name="description" content="Ruby code is full of blocks. Blocks are essentially chunks of code that allow you to defer
+the precise way a method will work to the time of the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -41,6 +41,50 @@ hide sensitive database information. In this post, I&rsquo;ll &hellip;">
     </a>
 
     
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2016/01/30/use-procs-to-dry-up-code/">
+		
+			Using Procs to DRY Up Ruby Code</a>
+	</h2>
+	<div class="entry-content">
+		<p>Ruby code is full of blocks. Blocks are essentially chunks of code that allow you to defer
+the precise way a method will work to the time of the method invocation. For example,
+if you encounter a scenario where you&rsquo;re calling a method from multiple places,
+with one little tweak in each case, it may be a good idea implement the
+method in a generic way by yielding to a block. By defining one method instead of many similar
+methods your code stays DRY. The problem is Ruby only lets you
+yield to one block per method. In this post I&rsquo;ll explain how to send procs to methods so
+you can tweak your generic methods in more than one way at a time.  Along the way I explain
+how some of Ruby&rsquo;s syntactic sugar works, and I close with a real world example of how I implemented
+all this in an app. 
+		
+		<a href="/blog/2016/01/30/use-procs-to-dry-up-code/" class="more-link">Read on &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">+
++
+
++
++
+<time class='entry-date' datetime='2016-01-30T22:58:51-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:58 pm</span></time></div>
+	
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+	
+</div></article>
 
 
     <article class="post">
@@ -221,7 +265,7 @@ in
 </div>
 
 <div class="pull-right">
-  <h4>Copyright &copy 2015 Durrell Chamorro. Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>. Photo Credit: <a href="http://www.flickr.com/photos/44124348109@N01/8213082764">Tubular</a> via <a href="http://photopin.com">photopin</a> <a href="https://creativecommons.org/licenses/by/2.0/">(license)</a></h4></div>
+  <h4>Copyright &copy 2016 Durrell Chamorro. Photo Credit: <a href="http://www.flickr.com/photos/44124348109@N01/8213082764">Tubular</a> via <a href="http://photopin.com">photopin</a> <a href="https://creativecommons.org/licenses/by/2.0/">(license)</a></h4></div>
 
 
     </div>

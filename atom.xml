@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2015-12-12T20:32:36-08:00</updated>
+  <updated>2016-01-31T19:39:24-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -12,6 +12,304 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using Procs to DRY Up Ruby Code]]></title>
+    <link href="http://durrellchamorro.github.io/blog/2016/01/30/use-procs-to-dry-up-code/"/>
+    <updated>2016-01-30T22:58:51-08:00</updated>
+    <id>http://durrellchamorro.github.io/blog/2016/01/30/use-procs-to-dry-up-code</id>
+    <content type="html"><![CDATA[<p>Ruby code is full of blocks. Blocks are essentially chunks of code that allow you to defer
+the precise way a method will work to the time of the method invocation. For example,
+if you encounter a scenario where you&rsquo;re calling a method from multiple places,
+with one little tweak in each case, it may be a good idea implement the
+method in a generic way by yielding to a block. By defining one method instead of many similar
+methods your code stays DRY. The problem is Ruby only lets you
+yield to one block per method. In this post I&rsquo;ll explain how to send procs to methods so
+you can tweak your generic methods in more than one way at a time.  Along the way I explain
+how some of Ruby&rsquo;s syntactic sugar works, and I close with a real world example of how I implemented
+all this in an app. <!--more--></p>
+
+<p>Instead of:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="n">n</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>you can use this syntactic sugar:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_s</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works because in the context of a method call, putting an ampersand in front of the
+<a href="#LastArgument">*last argument</a>
+tells Ruby to convert whatever is immediately to the right of the ampersand
+to a proc if it isn&rsquo;t a proc already and then use that proc as the method’s block.
+For example, these 5 examples all return the same thing:</p>
+
+<p>1) The traditional way:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="n">n</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span> <span class="c1"># =&gt; [&quot;1&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2) Below the ampersand calls <code>Symbol#to_proc</code> on <code>:to_s</code> and then makes sure that proc is used as the method&rsquo;s block.
+Click <a href="#SymbolToProc">here</a> for an explanation of how <code>Symbol#to_proc</code> works.
+<a name="LastArgument"></a>*Technically speaking, Ruby does not consider the ampersand followed by a proc (or in this case a symbol being
+converted to a proc) to be an argument for the method. If it did, then this would cause a wrong number of arguments
+(1 for 0) error since <code>Array#map</code> doesn&rsquo;t take any arguments.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_s</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;1&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3) Since <code>a_proc</code> is already a proc, the ampersand doesn&rsquo;t need to call <code>#to_proc</code> on it. Instead it will just make
+sure the proc is used as the method&rsquo;s block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a_proc</span> <span class="o">=</span> <span class="ss">:to_s</span><span class="o">.</span><span class="n">to_proc</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a_proc</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;1&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4) You can create a proc and assign it to a local variable that describes what the proc does:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">call_to_s_on_the_object</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span> <span class="n">object</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">call_to_s_on_the_object</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;1&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>5) Instead of <code>Proc.new</code> you can just write this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a_shorter_way_to_create_a_proc</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span> <span class="n">object</span><span class="o">.</span><span class="n">to_s</span> <span class="p">}</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a_shorter_way_to_create_a_proc</span><span class="p">)</span> <span class="c1"># =&gt; [&quot;1&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Procs do more than just give us syntactic sugar.
+<a href="#RealWorldExample">They helped me combine two methods into one.</a>
+If you have two methods that are the same, except for a block inside the methods and both methods are
+already yielding to a block like below, you can&rsquo;t yield to two different blocks, but you can
+pass in a proc to handle the difference. Here are three methods. The first two can be replaced by the third.
+<a href="https://gist.github.com/durrellchamorro/220045206c525bd72f78">Here is code</a> you
+can run in your terminal to see how all the examples in this post work firsthand.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">my_first_method</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">string</span><span class="o">|</span> <span class="nb">p</span> <span class="n">string</span> <span class="o">+</span> <span class="s1">&#39; whatever&#39;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span> <span class="nb">p</span> <span class="k">yield</span> <span class="n">object</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">my_second_method</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span> <span class="nb">p</span> <span class="n">object</span> <span class="o">+</span> <span class="mi">5</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span> <span class="nb">p</span> <span class="k">yield</span> <span class="n">object</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">you_only_need_one_method</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">some_proc</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">array</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">some_proc</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span> <span class="nb">p</span> <span class="k">yield</span> <span class="n">object</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a name="SymbolToProc"></a></p>
+
+<h3>The Symbol class defines <code>#to_proc</code> like so:</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Symbol</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_proc</span>
+</span><span class='line'>    <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="o">|</span> <span class="n">obj</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Therefore, calling <code>#to_proc</code> on a symbol returns a proc.
+<code>[1, 2].to_s</code> is the same as <code>[1, 2].send(:to_s)</code>.
+Likewise, <code>[1, 2].delete_at(0)</code> is the same as <code>[1, 2].send(:delete_at, 0)</code>.
+With this in mind, consider the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">foo!</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">yield</span> <span class="n">array</span><span class="p">,</span> <span class="n">index</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">my_array</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">foo!</span><span class="p">(</span><span class="n">my_array</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="ss">:delete_at</span><span class="p">)</span> <span class="c1"># This is the same as: my_array.delete_at(0)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">my_array</span> <span class="c1"># =&gt; [2]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code below proves <code>delete_at_proc</code> and <code>delete_at_proc2</code> are equivalent:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">delete_at_proc</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">obj</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span> <span class="n">obj</span><span class="o">.</span><span class="n">delete_at</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="n">my_array</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">foo!</span><span class="p">(</span><span class="n">my_array</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">delete_at_proc</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">my_array</span> <span class="c1"># =&gt; [2]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">delete_at_proc2</span> <span class="o">=</span> <span class="ss">:delete_at</span><span class="o">.</span><span class="n">to_proc</span>
+</span><span class='line'><span class="n">my_array</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">foo!</span><span class="p">(</span><span class="n">my_array</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">delete_at_proc2</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">my_array</span> <span class="c1"># =&gt; [2]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><a name="RealWorldExample"></a> A Real World Example of all this in Action</h3>
+
+<p>The <code>#sort</code> helper method below is written in a generic way so two things can be customized
+at method invocation time.</p>
+
+<h4>1. The collection can be any object that can be sent <code>#partition</code> and <code>#index</code>.</h4>
+
+<h4>2. The block being yielded to can be customized.</h4>
+
+<p><code>#sort</code> uses <code>#partition</code> to split a collection into two arrays: complete and incomplete. <code>#partition</code>
+iterates through each element in the collection and decides
+which array each element of the collection will go to depending
+on whether <code>#partition</code>&rsquo;s' block evaluates to true. Next, <code>#sort</code>
+yields the newly created arrays to the block in a view. Therefore,
+I needed a different way to check the status of different kinds of collections
+in order for <code>#partition</code>&rsquo;s block to return true or false for the different kinds collections.
+Instead of defining a sorting method for each kind of collection that would use a unique block for <code>#partition</code>
+made special to evaluate the status of that particular collection&rsquo;s elements, I created unique procs
+for each kind of collection and used those procs for <code>#partition</code>&rsquo;s block. In this way
+I was able to write one method that can sort different kinds of collections and then send the sorted collection
+to a custom block.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">check_item_status</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">complete_collection</span><span class="p">,</span> <span class="n">incomplete_collection</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="o">&amp;</span><span class="n">check_item_status</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">incomplete_collection</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="k">yield</span> <span class="n">item</span><span class="p">,</span> <span class="n">collection</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">complete_collection</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="k">yield</span> <span class="n">item</span><span class="p">,</span> <span class="n">collection</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this view <code>#sort</code> yields to a custom block of erb code that displays the contents of
+one kind of collection (todo items) in an unordered list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">check_todo_status</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="n">todo</span><span class="o">|</span> <span class="n">todo</span><span class="o">[</span><span class="ss">:status</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;complete&#39;</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="n">sort</span><span class="p">(</span><span class="vi">@list</span><span class="o">[</span><span class="ss">:todos</span><span class="o">]</span><span class="p">,</span> <span class="n">check_todo_status</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">todo</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;ul&gt;</span>
+</span><span class='line'><span class="x">    &lt;li class=&quot;</span><span class="cp">&lt;%=</span> <span class="n">todo</span><span class="o">[</span><span class="ss">:status</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;form action=&quot;/lists/</span><span class="cp">&lt;%=</span> <span class="vi">@list_id</span> <span class="cp">%&gt;</span><span class="x">/todos/</span><span class="cp">&lt;%=</span> <span class="n">index</span> <span class="cp">%&gt;</span><span class="x">&quot; method=&quot;post&quot; class=&quot;check&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;input type=&quot;hidden&quot; name=&quot;status&quot; value=&quot;</span><span class="cp">&lt;%=</span> <span class="n">opposite_status_of</span><span class="p">(</span><span class="n">todo</span><span class="o">[</span><span class="ss">:status</span><span class="o">]</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&quot; &gt;</span>
+</span><span class='line'><span class="x">        &lt;button type=&quot;submit&quot;&gt;Complete&lt;/button&gt;</span>
+</span><span class='line'><span class="x">      &lt;/form&gt;</span>
+</span><span class='line'><span class="x">      &lt;h3&gt;</span><span class="cp">&lt;%=</span> <span class="n">todo</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">      &lt;form action=&quot;/lists/</span><span class="cp">&lt;%=</span> <span class="vi">@list_id</span> <span class="cp">%&gt;</span><span class="x">/todos/</span><span class="cp">&lt;%=</span> <span class="n">index</span> <span class="cp">%&gt;</span><span class="x">/destroy&quot;</span>
+</span><span class='line'><span class="x">        method=&quot;post&quot; class=&quot;delete&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;button type=&quot;submit&quot;&gt;Delete&lt;/button&gt;</span>
+</span><span class='line'><span class="x">      &lt;/form&gt;</span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  &lt;/ul&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the view below <code>#sort</code> yields to a custom block of erb code that displays the contents of a
+different kind of collection (a list of todo lists) in an unordered list.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;ul id=&quot;lists&quot;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">check_list_status</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">{</span> <span class="o">|</span><span class="n">list</span><span class="o">|</span> <span class="n">all_complete?</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;complete&#39;</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">sort</span><span class="p">(</span><span class="vi">@lists</span><span class="p">,</span> <span class="n">check_list_status</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">list</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;li class=&quot;</span><span class="cp">&lt;%=</span><span class="n">all_complete?</span><span class="p">(</span><span class="n">list</span><span class="p">)</span><span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;h2&gt;&lt;a href=&quot;lists/</span><span class="cp">&lt;%=</span> <span class="n">index</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">list</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/a&gt;&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">display_progress</span><span class="p">(</span><span class="n">list</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Generate Slugs]]></title>
