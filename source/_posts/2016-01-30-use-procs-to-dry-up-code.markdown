@@ -149,7 +149,7 @@ each kind of collection, but there is no one size fits all block because the dat
 the collections are quite different.
 Instead of defining a sorting method for each kind of collection that would have a unique block for ``#partition``
 I created unique procs for each kind of collection and used those procs for ``#partition``'s block. In this way
-I wrote one method that sorts different kinds of collections and sends the sorted collection's
+I wrote one method that sorts different kinds of collections and yields the sorted collection's
 items to a custom block.
 
 ```ruby
