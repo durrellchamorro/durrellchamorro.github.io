@@ -71,8 +71,9 @@ if you encounter a scenario where you&rsquo;re calling a method from multiple pl
 with one little tweak in each case, it may be a good idea implement the
 method in a generic way by yielding to a block. By defining one method instead of many similar
 methods your code stays DRY. The problem is Ruby only lets you
-yield to one block per method. In this post I&rsquo;ll explain how to send procs to methods so
-you can tweak your generic methods in more than one way at a time.  Along the way I explain
+yield to one block per method and that limits your ability to customize methods. In this post
+I&rsquo;ll explain how to send procs to methods so you can customize your generic methods in
+more than one way at a time.  Along the way I explain
 how some of Ruby&rsquo;s syntactic sugar works, and I close with a real world example of how I implemented
 all this in an app. <!--more--></p>
 
@@ -268,7 +269,7 @@ at method invocation time.</p>
 iterates through each element in the collection and decides
 which array each element of the collection will go to depending
 on whether <code>#partition</code>&rsquo;s' block evaluates to true. Next, <code>#sort</code>
-yields the newly created arrays to the block in a view. Therefore,
+yields each item in the newly created arrays with its original index to the block in a view. Therefore,
 I needed a different way to check the status of different kinds of collections
 in order for <code>#partition</code>&rsquo;s block to return true or false for the different kinds collections.
 Instead of defining a sorting method for each kind of collection that would use a unique block for <code>#partition</code>
