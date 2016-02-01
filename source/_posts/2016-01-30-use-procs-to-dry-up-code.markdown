@@ -63,24 +63,26 @@ Procs do more than just give us syntactic sugar.
 <a href="#RealWorldExample">They helped me combine two methods into one.</a>
 If you have two methods that are the same, except for a block inside the methods and both methods are
 already yielding to a block like below, you can't yield to two different blocks, but you can
-pass in a proc to handle the difference. Below are three methods. The first two can be replaced by the third.
+pass in a proc to handle the difference. Below are three methods. You can't add numbers to strings and
+you can't add strings to numbers hence the need for the first two methods. However, the first two methods
+can be replaced by the third.
 <a href="https://gist.github.com/durrellchamorro/220045206c525bd72f78">Here is code</a> you
-can run in your terminal to see how all the examples in this post work firsthand.
+can run in your terminal to see how most of the examples in this post work firsthand.
 
 ```ruby
-def my_first_method(array)
-  array.each { |string| p string + ' whatever' }
-  array.each { |object| p yield object }
+def my_first_method(array_of_strings)
+  array_of_strings.each { |string| p string + ' whatever' }
+  array_of_strings.each { |object| p yield object }
 end
 
 def my_second_method(array)
-  array.each { |object| p object + 5 }
-  array.each { |object| p yield object }
+  array_of_numbers.each { |number| p number + 5 }
+  array_of_numbers.each { |object| p yield object }
 end
 
-def you_only_need_one_method(array, some_proc)
-  array.each(&some_proc)
-  array.each { |object| p yield object }
+def you_only_need_one_method(array_of_anything, some_proc)
+  array_of_anything.each(&some_proc)
+  array_of_anything.each { |object| p yield object }
 end
 ```
 
@@ -95,38 +97,47 @@ class Symbol
 end
 ```
 
-Therefore, calling ``#to_proc`` on a symbol returns a proc.
-``[1, 2].to_s`` is the same as ``[1, 2].send(:to_s)``.
-Likewise, ``[1, 2].delete_at(0)`` is the same as ``[1, 2].send(:delete_at, 0)``.
-With this in mind, consider the following:
+Therefore, calling ``#to_proc`` on a symbol returns a proc. The ``*args`` means
+the proc can take any number of arguments. In other words, just like blocks, procs don't enforce argument
+count. This formal word for this is <a href="https://en.wikipedia.org/wiki/Arity">Arity</a>.
+The proc created when ``#to_proc`` is called on ``:to_s`` looks like this:
+
+```ruby
+Proc.new { |obj, *args| obj.send(:to_s, *args) }
+```
+
+Even though this proc can take more than one argument, you wouldn't want to yield more than one object to the proc
+because the proc would send that object to ``#to_s`` and ``#to_s`` doesn't take any arguments so you
+would get an ``ArgumentError``. The examples above with ``#map`` and ``:to_s.to_proc`` work because
+``1.send(:to_s)`` is the same as ``1.to_s``. Likewise, ``[1, 2].delete_at(0)`` is the same as
+``[1, 2].send(:delete_at, 0)``.
+With this in mind, consider the following cases where yielding more than one object will not produce an ``ArgumentError``:
 
 ```ruby
 def foo!(array, index)
   yield array, index
 end
 
-my_array = [1, 2]
-
-foo!(my_array, 0, &:delete_at) # This is the same as: my_array.delete_at(0)
-
+my_array = [1,2]
+foo!(my_array, 0) { |obj, index|  obj.delete_at(index) }
 my_array # => [2]
-```
 
-The code below proves ``delete_at_proc`` and ``delete_at_proc2`` are equivalent:
+my_array = [1, 2]
+foo!(my_array, 0) { |obj, index| obj.send(:delete_at, index) }
+my_array # => [2]
 
-```ruby
+my_array = [1, 2]
 delete_at_proc = Proc.new { |obj, index| obj.delete_at(index) }
-my_array = [1, 2]
-
 foo!(my_array, 0, &delete_at_proc)
-
 my_array # => [2]
 
-delete_at_proc2 = :delete_at.to_proc
 my_array = [1, 2]
-
+delete_at_proc2 = :delete_at.to_proc
 foo!(my_array, 0, &delete_at_proc2)
+my_array # => [2]
 
+my_array = [1, 2]
+foo!(my_array, 0, &:delete_at)
 my_array # => [2]
 ```
 
@@ -145,7 +156,7 @@ which array each element of the collection will go to depending
 on whether ``#partition``'s block evaluates to true. Next, each item in the newly created arrays
 is yielded with its original index to the block in a view. In order for ``#partition``'s block to
 evaluate to true or false for different kinds collections its block needs to be compatible with
-each kind of collection, but there is no one size fits all block because the data structures of
+each kind of collection. The problem is there is no one size fits all block because the data structures of
 the collections are quite different.
 Instead of defining a sorting method for each kind of collection that would have a unique block for ``#partition``
 I created a unique proc for each kind of collection to use as ``#partition``'s block with that collection.
@@ -197,7 +208,3 @@ different kind of collection (a list of todo lists) in an unordered list.
   <% end %>
 </ul>
 ```
-
-
-
-
