@@ -99,7 +99,7 @@ end
 
 Therefore, calling ``#to_proc`` on a symbol returns a proc. The ``*args`` means
 the proc can take any number of arguments. In other words, just like blocks, procs don't enforce argument
-count. This formal word for this is <a href="https://en.wikipedia.org/wiki/Arity">Arity</a>.
+count. The formal word for this is <a href="https://en.wikipedia.org/wiki/Arity">Arity</a>.
 The proc created when ``#to_proc`` is called on ``:to_s`` looks like this:
 
 ```ruby
