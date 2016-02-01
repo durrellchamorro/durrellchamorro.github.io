@@ -17,16 +17,7 @@ more than one way at a time.  Along the way I explain
 how some of Ruby's syntactic sugar works, and I close with a real world example of how I implemented
 all this in an app. <!--more-->
 
-Instead of:
-```ruby
-[1].map { |n| n.to_s }
-```
-you can use this syntactic sugar:
-```ruby
-[1].map(&:to_s)
-```
-
-This works because in the context of a method call, putting an ampersand in front of the
+In the context of a method call, putting an ampersand in front of the
 <a href="#LastArgument">*last argument</a>
 tells Ruby to convert whatever is immediately to the right of the ampersand
 to a proc if it isn't a proc already and then use that proc as the method’s block.
@@ -72,7 +63,7 @@ Procs do more than just give us syntactic sugar.
 <a href="#RealWorldExample">They helped me combine two methods into one.</a>
 If you have two methods that are the same, except for a block inside the methods and both methods are
 already yielding to a block like below, you can't yield to two different blocks, but you can
-pass in a proc to handle the difference. Here are three methods. The first two can be replaced by the third.
+pass in a proc to handle the difference. Below are three methods. The first two can be replaced by the third.
 <a href="https://gist.github.com/durrellchamorro/220045206c525bd72f78">Here is code</a> you
 can run in your terminal to see how all the examples in this post work firsthand.
 
@@ -156,8 +147,8 @@ in order for ``#partition``'s block to evaluate to true or false for the differe
 Instead of defining a sorting method for each kind of collection that would use a unique block for ``#partition``
 made special to evaluate the status of that particular collection's elements, I created unique procs
 for each kind of collection and used those procs for ``#partition``'s block. In this way
-I was able to write one method that can sort different kinds of collections and then send the sorted collection
-to a custom block.
+I was able to write one method that can sort different kinds of collections and then send the sorted collection's
+items to a custom block.
 
 ```ruby
 def sort(collection, check_item_status)
