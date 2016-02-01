@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-02-01T15:25:50-08:00</updated>
+  <updated>2016-02-01T15:51:32-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -108,7 +108,7 @@ end
 
 <p>Therefore, calling <code>#to_proc</code> on a symbol returns a proc. The <code>*args</code> means
 the proc can take any number of arguments. In other words, just like blocks, procs don&rsquo;t enforce argument
-count. This formal word for this is <a href="https://en.wikipedia.org/wiki/Arity">Arity</a>.
+count. The formal word for this is <a href="https://en.wikipedia.org/wiki/Arity">Arity</a>.
 The proc created when <code>#to_proc</code> is called on <code>:to_s</code> looks like this:</p>
 
 <pre><code class="ruby">Proc.new { |obj, *args| obj.send(:to_s, *args) }
