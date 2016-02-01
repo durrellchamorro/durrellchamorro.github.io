@@ -152,7 +152,7 @@ which array each element of the collection will go to depending
 on whether ``#partition``'s' block evaluates to true. Next, ``#sort``
 yields each item in the newly created arrays with its original index to the block in a view. Therefore,
 I needed a different way to check the status of different kinds of collections
-in order for ``#partition``'s block to return true or false for the different kinds collections.
+in order for ``#partition``'s block to evaluate to true or false for the different kinds collections.
 Instead of defining a sorting method for each kind of collection that would use a unique block for ``#partition``
 made special to evaluate the status of that particular collection's elements, I created unique procs
 for each kind of collection and used those procs for ``#partition``'s block. In this way
