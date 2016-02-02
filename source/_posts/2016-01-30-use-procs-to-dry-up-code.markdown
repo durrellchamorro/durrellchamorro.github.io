@@ -176,12 +176,12 @@ In this view ``#sort`` yields to a custom block of erb code that displays the co
 one kind of collection (todo items) in an unordered list:
 
 ```erb
-<% check_todo_status = proc { |todo| todo[:status] == 'complete' } %>
-<% sort(@list[:todos], check_todo_status) do |todo, index| %>
-  <ul>
+<ul>
+  <% check_todo_status = proc { |todo| todo[:status] == 'complete' } %>
+  <% sort(@list[:todos], check_todo_status) do |todo, index| %>
     <li class="<%= todo[:status] %>">
       <form action="/lists/<%= @list_id %>/todos/<%= index %>" method="post" class="check">
-        <input type="hidden" name="status" value="<%= opposite_status_of(todo[:status]) %>" >
+        <input type="hidden" name="status" value="<%= opposite_status_of(todo[:status]) %>">
         <button type="submit">Complete</button>
       </form>
       <h3><%= todo[:name] %></h3>
@@ -190,8 +190,8 @@ one kind of collection (todo items) in an unordered list:
         <button type="submit">Delete</button>
       </form>
     </li>
-  </ul>
-<% end %>
+  <% end %>
+</ul>
 ```
 
 In the view below ``#sort`` yields to a custom block of erb code that displays the contents of a
