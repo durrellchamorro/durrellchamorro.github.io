@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-02-01T17:25:59-08:00</updated>
+  <updated>2016-02-02T11:30:44-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -183,28 +183,30 @@ end
 <p>In this view <code>#sort</code> yields to a custom block of erb code that displays the contents of
 one kind of collection (todo items) in an unordered list:</p>
 
-<pre><code class="erb">&lt;% check_todo_status = proc { |todo| todo[:status] == 'complete' } %&gt;
-&lt;% sort(@list[:todos], check_todo_status) do |todo, index| %&gt;
-  &lt;ul&gt;
-    &lt;li class="&lt;%= todo[:status] %&gt;"&gt;
-      &lt;form action="/lists/&lt;%= @list_id %&gt;/todos/&lt;%= index %&gt;" method="post" class="check"&gt;
-        &lt;input type="hidden" name="status" value="&lt;%= opposite_status_of(todo[:status]) %&gt;" &gt;
-        &lt;button type="submit"&gt;Complete&lt;/button&gt;
-      &lt;/form&gt;
-      &lt;h3&gt;&lt;%= todo[:name] %&gt;&lt;/h3&gt;
-      &lt;form action="/lists/&lt;%= @list_id %&gt;/todos/&lt;%= index %&gt;/destroy"
-        method="post" class="delete"&gt;
-        &lt;button type="submit"&gt;Delete&lt;/button&gt;
-      &lt;/form&gt;
-    &lt;/li&gt;
-  &lt;/ul&gt;
-&lt;% end %&gt;
-</code></pre>
-
-<p>In the view below <code>#sort</code> yields to a custom block of erb code that displays the contents of a
-different kind of collection (a list of todo lists) in an unordered list.</p>
-
 <p>```erb</p>
+
+<ul>
+  <% check_todo_status = proc { |todo| todo[:status] == 'complete' } %>
+  <% sort(@list[:todos], check_todo_status) do |todo, index| %>
+    <li class="<%= todo[:status] %>">
+      <form action="/lists/<%= @list_id %>/todos/<%= index %>" method="post" class="check">
+        <input type="hidden" name="status" value="<%= opposite_status_of(todo[:status]) %>">
+        <button type="submit">Complete</button>
+      </form>
+      <h3><%= todo[:name] %></h3>
+      <form action="/lists/<%= @list_id %>/todos/<%= index %>/destroy"
+        method="post" class="delete">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
+  <% end %>
+</ul>
+
+
+<pre><code>
+In the view below ``#sort`` yields to a custom block of erb code that displays the contents of a
+different kind of collection (a list of todo lists) in an unordered list.
+</code></pre>
 
 <ul id="lists">
   <% check_list_status = proc { |list| all_complete?(list) == 'complete' } %>
