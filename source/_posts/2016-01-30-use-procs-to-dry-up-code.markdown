@@ -75,7 +75,7 @@ def my_first_method(array_of_strings)
   array_of_strings.each { |object| p yield object }
 end
 
-def my_second_method(array)
+def my_second_method(array_of_numbers)
   array_of_numbers.each { |number| p number + 5 }
   array_of_numbers.each { |object| p yield object }
 end
