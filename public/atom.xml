@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-02-01T15:51:32-08:00</updated>
+  <updated>2016-02-01T17:25:59-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -24,7 +24,7 @@ if you encounter a scenario where you&rsquo;re calling a method from multiple pl
 with one little tweak in each case, it may be a good idea implement the
 method in a generic way by yielding to a block. By defining one method instead of many similar
 methods your code stays DRY. The problem is Ruby only lets you
-yield to one block per method and that limits your ability to customize methods. In this post
+yield to one block per method call and that limits your ability to customize methods. In this post
 I&rsquo;ll explain how to send procs to methods so you can customize your generic methods in
 more than one way at a time.  Along the way I explain
 how some of Ruby&rsquo;s syntactic sugar works, and I close with a real world example of how I implemented
@@ -111,7 +111,7 @@ can run in your terminal to see how most of the examples in this post work first
 </span><span class='line'>  <span class="n">array_of_strings</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span> <span class="nb">p</span> <span class="k">yield</span> <span class="n">object</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">my_second_method</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">my_second_method</span><span class="p">(</span><span class="n">array_of_numbers</span><span class="p">)</span>
 </span><span class='line'>  <span class="n">array_of_numbers</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">number</span><span class="o">|</span> <span class="nb">p</span> <span class="n">number</span> <span class="o">+</span> <span class="mi">5</span> <span class="p">}</span>
 </span><span class='line'>  <span class="n">array_of_numbers</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span> <span class="nb">p</span> <span class="k">yield</span> <span class="n">object</span> <span class="p">}</span>
 </span><span class='line'><span class="k">end</span>

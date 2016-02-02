@@ -11,7 +11,7 @@ if you encounter a scenario where you're calling a method from multiple places,
 with one little tweak in each case, it may be a good idea implement the
 method in a generic way by yielding to a block. By defining one method instead of many similar
 methods your code stays DRY. The problem is Ruby only lets you
-yield to one block per method and that limits your ability to customize methods. In this post
+yield to one block per method call and that limits your ability to customize methods. In this post
 I'll explain how to send procs to methods so you can customize your generic methods in
 more than one way at a time.  Along the way I explain
 how some of Ruby's syntactic sugar works, and I close with a real world example of how I implemented
