@@ -105,13 +105,13 @@ The proc created when ``#to_proc`` is called on ``:to_s`` looks like this:
 ```ruby
 Proc.new { |obj, *args| obj.send(:to_s, *args) }
 ```
-
-Even though this proc can take more than one argument, you wouldn't want to yield more than one object to the proc
-because the proc would send that object to ``#to_s`` and ``#to_s`` doesn't take any arguments so you
-would get an ``ArgumentError``. The examples above with ``#map`` and ``:to_s.to_proc`` work because
-``1.send(:to_s)`` is the same as ``1.to_s``. Likewise, ``[1, 2].delete_at(0)`` is the same as
-``[1, 2].send(:delete_at, 0)``.
-With this in mind, consider the following cases where yielding more than one object will not produce an ``ArgumentError``:
+Even though a proc can take more than one argument, you wouldn’t want to
+yield more than one object to the the proc above because any additional objects would be used as arguments
+for ``#to_s`` and ``#to_s`` doesn't take any arguments so you
+would get an ``ArgumentError``. The examples above with ``#map`` and ``:to_s.to_proc`` work because ``#map``
+only yields one object to its block at a time and ``1.send(:to_s)`` is the same as ``1.to_s``. Likewise,
+``[1, 2].send(:delete_at, 0)`` is the same as ``[1, 2].delete_at(0)``. Consider the following cases where yielding
+more than one object will not produce an ``ArgumentError`` since ``Array#delete_at`` takes an argument:
 
 ```ruby
 def foo!(array, index)
@@ -119,15 +119,15 @@ def foo!(array, index)
 end
 
 my_array = [1,2]
-foo!(my_array, 0) { |obj, index|  obj.delete_at(index) }
+foo!(my_array, 0) { |array, index|  array.delete_at(index) }
 my_array # => [2]
 
 my_array = [1, 2]
-foo!(my_array, 0) { |obj, index| obj.send(:delete_at, index) }
+foo!(my_array, 0) { |array, index| array.send(:delete_at, index) }
 my_array # => [2]
 
 my_array = [1, 2]
-delete_at_proc = Proc.new { |obj, index| obj.delete_at(index) }
+delete_at_proc = Proc.new { |array, index| array.delete_at(index) }
 foo!(my_array, 0, &delete_at_proc)
 my_array # => [2]
 
@@ -161,7 +161,7 @@ the collections are quite different.
 Instead of defining a sorting method for each kind of collection that would have a unique block for ``#partition``
 I created a unique proc for each kind of collection to use as ``#partition``'s block with that collection.
 In this way I wrote one method that sorts different kinds of collections and yields the sorted collection's
-items to a custom block.
+items to any custom block.
 
 ```ruby
 def sort(collection, check_item_status)
@@ -172,7 +172,7 @@ def sort(collection, check_item_status)
 end
 ```
 
-In this view ``#sort`` yields to a custom block of erb code that displays the contents of
+In this view ``#sort`` yields to a custom block of ``erb`` code that displays the contents of
 one kind of collection (todo items) in an unordered list:
 
 ```erb
@@ -194,7 +194,7 @@ one kind of collection (todo items) in an unordered list:
 </ul>
 ```
 
-In the view below ``#sort`` yields to a custom block of erb code that displays the contents of a
+In the view below ``#sort`` yields to a custom block of ``erb`` code that displays the contents of a
 different kind of collection (a list of todo lists) in an unordered list.
 
 ```erb
