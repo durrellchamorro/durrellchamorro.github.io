@@ -9,11 +9,12 @@ Ruby code is full of blocks. Blocks are essentially chunks of code that allow yo
 the precise way a method will work to the time of the method invocation. For example,
 if you encounter a scenario where you're calling a method from multiple places,
 with one little tweak in each case, it may be a good idea implement the
-method in a generic way by yielding to a block. By defining one method instead of many similar
-methods your code stays DRY. The problem is Ruby only lets you
+method in a generic way and handle each difference by yielding to a block. By defining one method instead of
+many similar methods your code stays DRY. The problem is Ruby only lets you
 yield to one block per method call and that limits your ability to customize methods. In this post
 I'll explain how to send procs to methods so you can customize your generic methods in
-more than one way at a time.  Along the way I explain
+more than one way at a time. An increased ability to customize methods is an increased ability to
+keep code DRY. Along the way I explain
 how some of Ruby's syntactic sugar works, and I close with a real world example of how I implemented
 all this in an app. <!--more-->
 
@@ -63,8 +64,8 @@ Procs do more than just give us syntactic sugar.
 <a href="#RealWorldExample">They helped me combine two methods into one.</a>
 If you have two methods that are the same, except for a block inside the methods and both methods are
 already yielding to a block like below, you can't yield to two different blocks, but you can
-pass in a proc to handle the difference. Below are three methods. You can't add numbers to strings and
-you can't add strings to numbers hence the need for the first two methods. However, the first two methods
+pass in a proc to handle the difference. Below are three methods. You can't add strings to numbers and
+you can't add numbers to strings hence the need for the first two methods. However, the first two methods
 can be replaced by the third.
 <a href="https://gist.github.com/durrellchamorro/220045206c525bd72f78">Here is code</a> you
 can run in your terminal to see how most of the examples in this post work firsthand.
