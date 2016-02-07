@@ -196,7 +196,7 @@ one kind of collection (todo items) in an unordered list:
 ```
 
 In the view below ``#sort`` yields to a custom block of ``erb`` code that displays the contents of a
-different kind of collection (a list of todo lists) in an unordered list.
+different kind of collection (a list of todo lists) in an unordered list:
 
 ```erb
 <ul id="lists">
