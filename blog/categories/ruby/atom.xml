@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-02-07T10:16:27-08:00</updated>
+  <updated>2016-02-07T10:39:33-08:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -207,7 +207,7 @@ one kind of collection (todo items) in an unordered list:</p>
 
 <pre><code>
 In the view below ``#sort`` yields to a custom block of ``erb`` code that displays the contents of a
-different kind of collection (a list of todo lists) in an unordered list.
+different kind of collection (a list of todo lists) in an unordered list:
 </code></pre>
 
 <ul id="lists">
