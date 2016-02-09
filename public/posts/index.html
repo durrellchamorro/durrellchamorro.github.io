@@ -63,7 +63,7 @@ the precise way &hellip;">
 the precise way a method will work to the time of the method invocation. For example,
 if you encounter a scenario where you&rsquo;re calling a method from multiple places,
 with one little tweak in each case, it may be a good idea implement the
-method in a generic way and handle each difference by yielding to a block. By defining one method instead of
+method in a generic way and handle each tweak by yielding to a block. By defining one method instead of
 many similar methods your code stays DRY. The problem is Ruby only lets you
 yield to one block per method call and that limits your ability to customize methods. In this post
 I&rsquo;ll explain how to send procs to methods so you can customize your generic methods in
