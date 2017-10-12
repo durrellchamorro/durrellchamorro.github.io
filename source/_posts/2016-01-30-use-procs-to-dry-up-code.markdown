@@ -69,6 +69,8 @@ you can't add numbers to strings hence the need for the first two methods. Howev
 can be replaced by the third.
 <a href="https://gist.github.com/durrellchamorro/220045206c525bd72f78">Here is code</a> you
 can run in your terminal to see how most of the examples in this post work firsthand.
+<a href="https://gist.github.com/durrellchamorro/b1513a8eef993856e4c23a7997e6f246">Here is an updated study</a>
+of procs to play around with if your prefer the<a href="https://github.com/JoshCheek/seeing_is_believing"> Seeing is Believing Gem</a> </p>
 
 ```ruby
 def my_first_method(array_of_strings)

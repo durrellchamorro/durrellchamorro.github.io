@@ -4,7 +4,7 @@
   <title><![CDATA[I'm Durrell Chamorro]]></title>
   <link href="http://durrellchamorro.github.io/atom.xml" rel="self"/>
   <link href="http://durrellchamorro.github.io/"/>
-  <updated>2016-02-18T02:08:54-08:00</updated>
+  <updated>2017-10-12T09:08:20-07:00</updated>
   <id>http://durrellchamorro.github.io/</id>
   <author>
     <name><![CDATA[Durrell Chamorro]]></name>
@@ -91,7 +91,9 @@ pass in a proc to handle the difference. Below are three methods. You can&rsquo;
 you can&rsquo;t add numbers to strings hence the need for the first two methods. However, the first two methods
 can be replaced by the third.
 <a href="https://gist.github.com/durrellchamorro/220045206c525bd72f78">Here is code</a> you
-can run in your terminal to see how most of the examples in this post work firsthand.</p>
+can run in your terminal to see how most of the examples in this post work firsthand.
+<a href="https://gist.github.com/durrellchamorro/b1513a8eef993856e4c23a7997e6f246">Here is an updated study</a>
+of procs to play around with if your prefer the<a href="https://github.com/JoshCheek/seeing_is_believing"> Seeing is Believing Gem</a> </p></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
